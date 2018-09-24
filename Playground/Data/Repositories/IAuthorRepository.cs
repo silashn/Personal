@@ -1,6 +1,6 @@
 ﻿using Data.Models;
 
-namespace Database.Repositories
+namespace Data.Repositories
 {
     public interface IAuthorRepository
     {

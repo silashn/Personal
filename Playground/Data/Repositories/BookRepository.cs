@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Models;
 
-namespace Database.Repositories
+namespace Data.Repositories
 {
     public class BookRepository : IBookRepository
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Database.Repositories
+namespace Data.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Data.Models;
 
-namespace Database.Repositories
+namespace Data.Repositories
 {
     public interface IBookRepository
     {
