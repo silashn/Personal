@@ -1,0 +1,10 @@
+﻿@using Playground.Data.Models
+@model List<Book>
+<h1>Playground</h1>
+<h2>Home</h2>
+<i>Books:</i>
+<br />
+@foreach(Book book in Model)
+{
+    <h3><b>@book.Title</b></h3>
+}
