@@ -1,4 +1,5 @@
-﻿using Playground.Data.Clients;
+﻿using Microsoft.EntityFrameworkCore;
+using Playground.Data.Clients;
 using Playground.Data.Contexts;
 using Playground.Data.Models;
 using Playground.Settings.Database;
@@ -25,19 +26,19 @@ namespace Playground.Data.Repositories
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.ToList();
+                return db.Books.Include(b => b.BookAuthors).ThenInclude(ba => ba.Author).Include(b => b.BookCategories).ThenInclude(bc => bc.Category).ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(Category category)
+        public List<Book> GetBooks(Category category)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category));
+                return db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category)).ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(List<Category> categories)
+        public List<Book> GetBooks(List<Category> categories)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
@@ -48,19 +49,19 @@ namespace Playground.Data.Repositories
                     books.AddRange(db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category)));
                 }
 
-                return books.Distinct();
+                return books.Distinct().ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(Author author)
+        public List<Book> GetBooks(Author author)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author));
+                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author)).ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(List<Author> authors)
+        public List<Book> GetBooks(List<Author> authors)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
@@ -71,19 +72,19 @@ namespace Playground.Data.Repositories
                     books.AddRange(db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author)));
                 }
 
-                return books.Distinct();
+                return books.Distinct().ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(Author author, Category category)
+        public List<Book> GetBooks(Author author, Category category)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author) && b.BookCategories.Select(bc => bc.Category).Contains(category)).Distinct();
+                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author) && b.BookCategories.Select(bc => bc.Category).Contains(category)).Distinct().ToList();
             }
         }
 
-        public IEnumerable<Book> GetBooks(List<Author> authors, List<Category> categories)
+        public List<Book> GetBooks(List<Author> authors, List<Category> categories)
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
@@ -99,7 +100,7 @@ namespace Playground.Data.Repositories
                     books.AddRange(db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category)));
                 }
 
-                return books.Distinct();
+                return books.Distinct().ToList();
             }
         }
     }

@@ -21,13 +21,21 @@ namespace Playground.Data.Repositories
             }
         }
 
-        public IEnumerable<Category> GetCategories()
+        public List<Category> GetCategories()
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Categories;
+                return db.Categories.ToList();
             }
         }
 
+        public void Create(Category category)
+        {
+            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            {
+                db.Categories.Add(category);
+                db.SaveChanges();
+            }
+        }
     }
 }

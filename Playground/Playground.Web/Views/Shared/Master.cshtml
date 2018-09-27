@@ -1,0 +1,50 @@
+﻿@using System.IO
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        @if(ViewBag.Title != null)
+        {
+            <text>Playground - </text>@ViewBag.Title
+        }
+        else
+        {
+            <text>Playground</text>
+        }
+    </title>
+    <link href="~/assets/css/main.src.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <wrapper>
+            <nav>
+                <ul>
+                    @foreach(DirectoryInfo dir in new DirectoryInfo("Views/").GetDirectories().Where(di => !di.Name.ToLower().Contains("admin") && !di.Name.ToLower().Contains("shared") && !di.Name.ToLower().Contains("login")))
+                    {
+                        foreach(FileInfo file in dir.GetFiles().Where(fi => fi.Name.ToLower().Contains("index")))
+                        {
+                            <li>
+                                <a asp-controller="@(dir.Name)" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
+                                    @if(file.Name.ToLower().Contains("index"))
+                                    {
+                                        <text>@(dir.Name)</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
+                                    }
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </wrapper>
+    </header>
+    <wrapper>
+        @RenderBody()
+    </wrapper>
+</body>
+</html>

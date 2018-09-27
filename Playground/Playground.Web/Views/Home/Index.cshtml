@@ -1,10 +1,72 @@
 ﻿@using Playground.Data.Models
-@model List<Book>
+@using Playground.Web.ViewModels
+@model DatabaseViewModel
+
 <h1>Playground</h1>
 <h2>Home</h2>
-<i>Books:</i>
+
 <br />
-@foreach(Book book in Model)
+<h1>Authors</h1>
+@foreach(Author author in Model.Authors)
+{
+    <h3><b>@author.Name</b></h3>
+}
+
+<br />
+<h1>Books:</h1>
+@foreach(Book book in Model.Books)
 {
     <h3><b>@book.Title</b></h3>
+    @if(book.Description != null)
+    {
+        <p>@book.Description</p>
+    }
+
+    @if(book.BookCategories != null && book.BookCategories.Count > 0)
+    {
+        <h4><i><b>Categories:</b></i></h4>
+        @foreach(Category category in book.BookCategories.Select(bc => bc.Category))
+        {
+            <p class="category">@(category.Name)</p>
+        }
+    }
+
+    @if(book.BookAuthors != null && book.BookAuthors.Count > 0)
+    {
+        <h4><i><b>Authors:</b></i></h4>
+        @foreach(Author author in book.BookAuthors.Select(ba => ba.Author))
+        {
+            <p class="author">@(author.Name)</p>
+        }
+    }
+}
+<br />
+
+<h1>Categories</h1>
+@foreach(Category category in Model.Categories)
+{
+    <h3><b>@category.Name</b></h3>
+}
+<br />
+
+<div asp-validation-summary="ModelOnly"></div>
+
+<h2>Author:</h2>
+@using(Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <label asp-for="Author.Name">Name</label>
+    <input type="text" asp-for="Author.Name" />
+    <span asp-validation-for="Author.Name"></span>
+    <input type="submit" value="Save" />
+}
+
+<br />
+
+<h2>Category:</h2>
+@using(Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <label asp-for="Category.Name">Name</label>
+    <input type="text" asp-for="Category.Name" />
+    <span asp-validation-for="Category.Name"></span>
+    <input type="submit" value="Save" />
 }

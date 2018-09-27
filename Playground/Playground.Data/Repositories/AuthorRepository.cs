@@ -24,11 +24,20 @@ namespace Playground.Data.Repositories
             }
         }
 
-        public IEnumerable<Author> GetAuthors()
+        public List<Author> GetAuthors()
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Authors;
+                return db.Authors.ToList();
+            }
+        }
+
+        public void Create(Author author)
+        {
+            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            {
+                db.Authors.Add(author);
+                db.SaveChanges();
             }
         }
     }
