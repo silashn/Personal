@@ -33,7 +33,7 @@ namespace Playground.Data.Repositories
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.Categories.Contains(category));
+                return db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category));
             }
         }
 
@@ -45,7 +45,7 @@ namespace Playground.Data.Repositories
 
                 foreach(Category category in categories)
                 {
-                    books.AddRange(db.Books.Where(b => b.Categories.Contains(category)));
+                    books.AddRange(db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category)));
                 }
 
                 return books.Distinct();
@@ -56,7 +56,7 @@ namespace Playground.Data.Repositories
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.Authors.Contains(author));
+                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author));
             }
         }
 
@@ -68,7 +68,7 @@ namespace Playground.Data.Repositories
 
                 foreach(Author author in authors)
                 {
-                    books.AddRange(db.Books.Where(b => b.Authors.Contains(author)));
+                    books.AddRange(db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author)));
                 }
 
                 return books.Distinct();
@@ -79,7 +79,7 @@ namespace Playground.Data.Repositories
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.Where(b => b.Authors.Contains(author) && b.Categories.Contains(category)).Distinct();
+                return db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author) && b.BookCategories.Select(bc => bc.Category).Contains(category)).Distinct();
             }
         }
 
@@ -91,12 +91,12 @@ namespace Playground.Data.Repositories
 
                 foreach(Author author in authors)
                 {
-                    books.AddRange(db.Books.Where(b => b.Authors.Contains(author)));
+                    books.AddRange(db.Books.Where(b => b.BookAuthors.Select(ba => ba.Author).Contains(author)));
                 }
 
                 foreach(Category category in categories)
                 {
-                    books.AddRange(db.Books.Where(b => b.Categories.Contains(category)));
+                    books.AddRange(db.Books.Where(b => b.BookCategories.Select(bc => bc.Category).Contains(category)));
                 }
 
                 return books.Distinct();

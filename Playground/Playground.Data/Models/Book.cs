@@ -11,7 +11,7 @@ namespace Playground.Data.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<Author> Authors { get; set; }
-        public List<Category> Categories { get; set; }
+        public List<BookAuthor> BookAuthors { get; set; }
+        public List<BookCategory> BookCategories { get; set; }
     }
 }
