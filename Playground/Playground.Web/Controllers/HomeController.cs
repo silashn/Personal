@@ -57,6 +57,7 @@ namespace Playground.Web.Controllers
 
                     categoryRepository.Create(category);
                 }
+                ModelState.Clear();
             }
 
             model = new DatabaseViewModel()
