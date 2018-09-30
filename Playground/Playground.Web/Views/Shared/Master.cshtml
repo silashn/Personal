@@ -1,4 +1,5 @@
 ﻿@using System.IO
+@using Playground.Tools.HTML.URL
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
                         foreach(FileInfo file in dir.GetFiles().Where(fi => fi.Name.ToLower().Contains("index")))
                         {
                             <li>
-                                <a asp-controller="@(dir.Name)" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
+                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
                                     @if(file.Name.ToLower().Contains("index"))
                                     {
                                         <text>@(dir.Name)</text>

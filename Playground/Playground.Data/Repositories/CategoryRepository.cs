@@ -20,12 +20,27 @@ namespace Playground.Data.Repositories
                 return db.Categories.FirstOrDefault(c => c.Id.Equals(id));
             }
         }
+        public Category GetCategory(string name)
+        {
+            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            {
+                return db.Categories.FirstOrDefault(c => c.Name.Equals(name));
+            }
+        }
 
         public List<Category> GetCategories()
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
                 return db.Categories.ToList();
+            }
+        }
+
+        public bool CategoryExists(string name)
+        {
+            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            {
+                return db.Categories.Count(c => c.Name.Equals(name)) > 0;
             }
         }
 
@@ -37,5 +52,6 @@ namespace Playground.Data.Repositories
                 db.SaveChanges();
             }
         }
+
     }
 }
