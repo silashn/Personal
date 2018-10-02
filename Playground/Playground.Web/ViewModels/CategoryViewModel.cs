@@ -8,7 +8,7 @@ namespace Playground.Web.ViewModels
     public class CategoryViewModel
     {
         [Required(ErrorMessage = "*")]
-        [Remote("Unique", "CategoryValidator", HttpMethod = "POST", ErrorMessage = "A Category with that name already exists")]
+        [Remote("Unique", "CategoryValidator", ErrorMessage = "A Category with that name already exists")]
         public string Name { get; set; }
     }
 }
