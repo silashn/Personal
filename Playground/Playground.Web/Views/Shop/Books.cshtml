@@ -1,1 +1,25 @@
-﻿
+﻿@using Playground.Data.Models
+
+@model List<Book>
+
+
+@foreach(Book book in Model)
+{
+    <div class="book">
+        <p>@book.Title</p>
+        <i>
+            @{ List<BookAuthor> bookAuthors = book.BookAuthors;}
+            af:
+            @foreach(Author author in bookAuthors.Select(ba => ba.Author))
+            {
+                <b style="display:inline-block;">
+                    @author.Name<!--
+                    -->@if(bookAuthors.Count - 1 > bookAuthors.FindIndex(0, bookAuthors.Count, ba => ba.AuthorId.Equals(author.Id)))
+                    {
+                    <text>, </text>
+                    }
+                </b>
+            }
+        </i>
+    </div>
+}

@@ -1,16 +1,16 @@
 ﻿using Playground.Data.Models;
-
+using System.Collections.Generic;
 namespace Playground.Data.Repositories
 {
     public interface IBookRepository
     {
         Book GetBook(int id);
-        System.Collections.Generic.List<Book> GetBooks();
-        System.Collections.Generic.List<Book> GetBooks(Author author);
-        System.Collections.Generic.List<Book> GetBooks(Author author, Category category);
-        System.Collections.Generic.List<Book> GetBooks(Category category);
-        System.Collections.Generic.List<Book> GetBooks(System.Collections.Generic.List<Author> authors);
-        System.Collections.Generic.List<Book> GetBooks(System.Collections.Generic.List<Author> authors, System.Collections.Generic.List<Category> categories);
-        System.Collections.Generic.List<Book> GetBooks(System.Collections.Generic.List<Category> categories);
+        List<Book> GetBooks();
+        List<Book> GetBooks(Author author);
+        List<Book> GetBooks(Author author, Category category);
+        List<Book> GetBooks(Category category);
+        List<Book> GetBooks(List<Author> authors);
+        List<Book> GetBooks(List<Author> authors, List<Category> categories);
+        List<Book> GetBooks(List<Category> categories);
     }
 }

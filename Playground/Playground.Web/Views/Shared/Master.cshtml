@@ -1,17 +1,18 @@
 ﻿@using System.IO
 @using Playground.Tools.HTML.URL
 
+@{ViewBag.Logo = "Playground";}
 <!DOCTYPE html>
 <html>
 <head>
     <title>
         @if(ViewBag.Title != null)
         {
-            <text>Playground - </text>@ViewBag.Title
+            @ViewBag.Logo<text> - </text>@ViewBag.Title
         }
         else
         {
-            <text>Playground</text>
+            @ViewBag.Logo
         }
     </title>
     <link href="~/assets/css/main.src.css" rel="stylesheet" />
@@ -24,19 +25,35 @@
                 <ul>
                     @foreach(DirectoryInfo dir in new DirectoryInfo("Views/").GetDirectories().Where(di => !di.Name.ToLower().Contains("admin") && !di.Name.ToLower().Contains("shared") && !di.Name.ToLower().Contains("login")))
                     {
-                        foreach(FileInfo file in dir.GetFiles().Where(fi => fi.Name.ToLower().Contains("index")))
+                        FileInfo index = dir.GetFiles().FirstOrDefault(fi => fi.Name.ToLower().Contains("index"));
+                        if(index != null)
                         {
-                            <li>
-                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
-                                    @if(file.Name.ToLower().Contains("index"))
-                                    {
-                                        <text>@(dir.Name)</text>
-                                    }
-                                    else
-                                    {
-                                        <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
-                                    }
+                            <li class="parent_menu">
+                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
+                                    <text>@(dir.Name)</text>
                                 </a>
+                                @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
+                                @if(subMenu != null && subMenu.ToList().Count > 0)
+                                {
+                                    <ul class="sub_menu">
+                                        @foreach(FileInfo file in subMenu)
+                                        {
+                                            <li>
+                                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
+                                            { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
+                                                    @if(file.Name.ToLower().Contains("index"))
+                                                    {
+                                                        <text>@(dir.Name)</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
                             </li>
                         }
                     }
@@ -45,6 +62,15 @@
         </wrapper>
     </header>
     <wrapper>
+        @if(ViewBag.Logo != null)
+        {
+            <h1>@ViewBag.Logo</h1>
+        }
+
+        @if(ViewBag.Title != null)
+        {
+            <h2>@ViewBag.Title</h2>
+        }
         @RenderBody()
     </wrapper>
 </body>

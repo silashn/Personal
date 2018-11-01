@@ -4,13 +4,17 @@ body { margin: 0; padding: 0 0 20px 0; }
 wrapper { margin: 0 auto; display: block; width: 90%; max-width: 1060px; }
 
 header { width: 100%; background-color: #CCC; }
-nav ul { list-style: none; list-style-type: none; display: inline-block; }
+nav ul { list-style: none; list-style-type: none; display: block; }
     nav ul li { display: inline-block; }
         nav ul li a { display: inline-flex; align-content: center; align-items: center; height: 50px; padding: 0 10px; color: #6B6B6B; font-style: normal; text-decoration: none; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif }
             nav ul li a:visited { color: #6B6B6B; }
             nav ul li a:hover, nav ul li a.current { color: #0B0B0B; }
 
-.sub_menu { background-color: #DDD; }
+.sub_menu { background-color: #DDD; position:absolute; display:none;}
+.parent_menu:hover > .sub_menu
+{
+    display:block;
+}
 
 ul.right { float: right; }
 

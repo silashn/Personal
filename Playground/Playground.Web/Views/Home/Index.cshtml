@@ -2,11 +2,6 @@
 @using Playground.Web.ViewModels
 @model DatabaseViewModel
 
-<h1>Playground</h1>
-<h2>Home</h2>
-
-<br />
-
 <div class="section_left">
     <h1>Authors</h1>
     @foreach(Author author in Model.Authors)
@@ -15,7 +10,7 @@
     }
 
     <br />
-    <h1>Books:</h1>
+    <h1>Books</h1>
     @foreach(Book book in Model.Books)
     {
         <h3><b>@book.Title</b></h3>
