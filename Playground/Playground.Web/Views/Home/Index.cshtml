@@ -2,6 +2,7 @@
 @using Playground.Web.ViewModels
 @model DatabaseViewModel
 
+<div class="SystemMessages">@Html.Raw(Model.SystemMessage)</div>
 <div class="section_left">
     <h1>Authors</h1>
     @foreach(Author author in Model.Authors)
@@ -71,5 +72,23 @@
         <span asp-validation-for="Category.Name"></span>
         <br />
         <input type="submit" value="Save" />
+    }
+
+    <h2>Book:</h2>
+    @using(Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <label asp-for="Book.Title">Title</label>
+        <input type="text" asp-for="Book.Title" />
+        <span asp-validation-for="Book.Title"></span>
+        <br />
+        for(int i = 0; i < Model.CheckBoxList_Authors.Length; i++)
+        {
+            <input type="checkbox" asp-for="CheckBoxList_Authors[i].Checked" />
+            <label asp-for="CheckBoxList_Authors[i].Checked">@Model.CheckBoxList_Authors[i].Name</label>
+            <input type="hidden" asp-for="CheckBoxList_Authors[i].Id" />
+            <input type="hidden" asp-for="CheckBoxList_Authors[i].Name" />
+
+            <br />
+        }
     }
 </div>

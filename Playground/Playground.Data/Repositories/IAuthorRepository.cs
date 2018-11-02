@@ -6,6 +6,6 @@ namespace Playground.Data.Repositories
     {
         Author GetAuthor(int id);
         System.Collections.Generic.List<Author> GetAuthors();
-        void Create(Author author);
+        string Create(Author author);
     }
 }

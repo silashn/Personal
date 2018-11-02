@@ -44,12 +44,27 @@ namespace Playground.Data.Repositories
             }
         }
 
-        public void Create(Category category)
+        public string Create(Category category)
         {
-            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            string name = "NULL";
+
+            if(category != null)
             {
-                db.Categories.Add(category);
-                db.SaveChanges();
+                name = category.Name;
+            }
+
+            try
+            {
+                using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+                {
+                    db.Categories.Add(category);
+                    db.SaveChanges();
+                }
+                return "<p class='success'>Successfully inserted category '" + name + "'.</p>";
+            }
+            catch(System.Exception e)
+            {
+                return "<p class='error'>Could not insert category '" + name + "': " + e.Message + "</p>";
             }
         }
 

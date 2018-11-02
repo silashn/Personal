@@ -3,6 +3,7 @@ using Playground.Data.Clients;
 using Playground.Data.Contexts;
 using Playground.Data.Models;
 using Playground.Settings.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +23,7 @@ namespace Playground.Data.Repositories
             }
         }
 
+        #region GET BOOKS
         public List<Book> GetBooks()
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
@@ -101,6 +103,25 @@ namespace Playground.Data.Repositories
                 }
 
                 return books.Distinct().ToList();
+            }
+        }
+        #endregion
+
+        public string Insert(Book book)
+        {
+            string title = "NULL";
+            if(book != null)
+            {
+                title = book.Title;
+            }
+
+            try
+            {
+                return "<p class='success'>Successfully inserted book '" + title + "'.";
+            }
+            catch(Exception e)
+            {
+                return "<p class='error'>Could not insert book '" + title + "': " + e.Message + "</p>";
             }
         }
     }

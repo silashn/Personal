@@ -5,8 +5,6 @@ using Playground.Settings.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Playground.Data.Repositories
 {
@@ -32,12 +30,27 @@ namespace Playground.Data.Repositories
             }
         }
 
-        public void Create(Author author)
+        public string Create(Author author)
         {
-            using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+            string name = "NULL";
+            if(author != null)
             {
-                db.Authors.Add(author);
-                db.SaveChanges();
+                name = author.Name;
+            }
+
+            try
+            {
+                using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+                {
+                    db.Authors.Add(author);
+                    db.SaveChanges();
+                }
+
+                return "<p class='success'>Successfully inserted author '" + name + "'.</p>";
+            }
+            catch(Exception e)
+            {
+                return "<p class='error'>Could not insert author '" + name + "': " + e.Message + "</p>";
             }
         }
     }

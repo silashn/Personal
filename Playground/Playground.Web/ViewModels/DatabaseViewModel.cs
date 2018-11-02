@@ -21,5 +21,17 @@ namespace Playground.Web.ViewModels
         #region Category
         public CategoryViewModel Category { get; set; }
         #endregion
+
+        #region Extra
+        public string SystemMessage { get; set; }
+        public CheckBox_Author[] CheckBoxList_Authors { get; set; }
+        #endregion
+    }
+
+    public class CheckBox_Author
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool Checked { get; set; }
     }
 }

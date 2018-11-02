@@ -3,6 +3,7 @@ using Playground.Data.Models;
 using Playground.Data.Repositories;
 using Playground.Web.ViewModels;
 using System;
+using System.Collections.Generic;
 
 namespace Playground.Web.Controllers
 {
@@ -36,6 +37,8 @@ namespace Playground.Web.Controllers
         [HttpPost]
         public IActionResult Index(DatabaseViewModel model)
         {
+            string message = "";
+
             if(ModelState.IsValid)
             {
                 if(model.Author != null)
@@ -45,7 +48,7 @@ namespace Playground.Web.Controllers
                         Name = model.Author.Name
                     };
 
-                    authorRepository.Create(author);
+                    message += authorRepository.Create(author);
                 }
 
                 if(model.Category != null)
@@ -55,16 +58,26 @@ namespace Playground.Web.Controllers
                         Name = model.Category.Name
                     };
 
-                    categoryRepository.Create(category);
+                    message += categoryRepository.Create(category);
                 }
+
+
                 ModelState.Clear();
+            }
+            CheckBox_Author[] CheckBox_Authors;
+
+            foreach(Author author in authorRepository.GetAuthors())
+            {
+                CheckBox_Authors.Add(new CheckBox_Author { Name = author.Name, Id = author.Id });
             }
 
             model = new DatabaseViewModel()
             {
                 Authors = authorRepository.GetAuthors(),
                 Books = bookRepository.GetBooks(),
-                Categories = categoryRepository.GetCategories()
+                Categories = categoryRepository.GetCategories(),
+                SystemMessage = message,
+                CheckBoxList_Authors = CheckBox_Authors
             };
 
             return View(model);

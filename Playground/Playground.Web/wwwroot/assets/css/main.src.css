@@ -10,6 +10,18 @@ nav ul { list-style: none; list-style-type: none; display: block; }
             nav ul li a:visited { color: #6B6B6B; }
             nav ul li a:hover, nav ul li a.current { color: #0B0B0B; }
 
+/*#region Messages */
+.error
+{
+    color:#F00;
+}
+
+.success
+{
+    color:#0A0;
+}
+/*#endregion */
+
 .sub_menu { background-color: #DDD; position:absolute; display:none;}
 .parent_menu:hover > .sub_menu
 {

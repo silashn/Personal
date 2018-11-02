@@ -12,5 +12,8 @@ namespace Playground.Data.Repositories
         List<Book> GetBooks(List<Author> authors);
         List<Book> GetBooks(List<Author> authors, List<Category> categories);
         List<Book> GetBooks(List<Category> categories);
+
+        string Insert(Book book);
+        
     }
 }
