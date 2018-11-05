@@ -81,12 +81,13 @@
         <input type="text" asp-for="Book.Title" />
         <span asp-validation-for="Book.Title"></span>
         <br />
-        for(int i = 0; i < Model.CheckBoxList_Authors.Length; i++)
+
+        for(int i = 0; i < Model.CheckBoxList.Count; i++)
         {
-            <input type="checkbox" asp-for="CheckBoxList_Authors[i].Checked" />
-            <label asp-for="CheckBoxList_Authors[i].Checked">@Model.CheckBoxList_Authors[i].Name</label>
-            <input type="hidden" asp-for="CheckBoxList_Authors[i].Id" />
-            <input type="hidden" asp-for="CheckBoxList_Authors[i].Name" />
+            <input type="checkbox" asp-for="CheckBoxList[i].Checked" />
+            <label asp-for="CheckBoxList[i].Checked">@Model.CheckBoxList[i].Name</label>
+            <input type="hidden" asp-for="CheckBoxList[i].Id" />
+            <input type="hidden" asp-for="CheckBoxList[i].Name" />
 
             <br />
         }

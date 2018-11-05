@@ -28,8 +28,14 @@ namespace Playground.Web.Controllers
             {
                 Authors = authorRepository.GetAuthors(),
                 Books = bookRepository.GetBooks(),
-                Categories = categoryRepository.GetCategories()
+                Categories = categoryRepository.GetCategories(),
+                CheckBoxList = new List<CheckBox>()
             };
+
+            foreach(Author author in authorRepository.GetAuthors())
+            {
+                model.CheckBoxList.Add(new CheckBox { Name = author.Name, Id = author.Id });
+            }
 
             return View(model);
         }
@@ -64,21 +70,19 @@ namespace Playground.Web.Controllers
 
                 ModelState.Clear();
             }
-            CheckBox_Author[] CheckBox_Authors;
-
-            foreach(Author author in authorRepository.GetAuthors())
-            {
-                CheckBox_Authors.Add(new CheckBox_Author { Name = author.Name, Id = author.Id });
-            }
 
             model = new DatabaseViewModel()
             {
                 Authors = authorRepository.GetAuthors(),
                 Books = bookRepository.GetBooks(),
                 Categories = categoryRepository.GetCategories(),
-                SystemMessage = message,
-                CheckBoxList_Authors = CheckBox_Authors
+                SystemMessage = message
             };
+
+            foreach(Author author in authorRepository.GetAuthors())
+            {
+                model.CheckBoxList.Add(new CheckBox { Name = author.Name, Id = author.Id });
+            }
 
             return View(model);
         }
