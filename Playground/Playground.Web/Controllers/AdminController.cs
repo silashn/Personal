@@ -29,6 +29,18 @@ namespace Playground.Areas.Admin.Controllers
             return View();
         }
 
+        [Route("Admin/Membership")]
+        public IActionResult Membership()
+        {
+            return View();
+        }
+
+        [Route("Admin/Shop")]
+        public IActionResult Shop()
+        {
+            return View();
+        }
+
         [Route("Admin/Membership/Authors")]
         public IActionResult Authors()
         {

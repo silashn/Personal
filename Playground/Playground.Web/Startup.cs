@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Playground.Configuration.Services;
 using System;
+using System.IO;
 
 namespace Playground.Web
 {
@@ -34,6 +36,27 @@ namespace Playground.Web
 
             ServiceConfigurator.ConfigureServices(services, configuration);
             services.BuildServiceProvider();
+
+            //Configure View location formats, to allow for specific folder/view structures.
+            services.Configure<RazorViewEngineOptions>(o =>
+            {
+                //{1} = Controller
+                //{0} = Action
+                o.ViewLocationFormats.Clear();
+                o.ViewLocationFormats.Add("/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
+
+                //Look subfolders inside Views/ folder (Admin/, Home/, Shared/, etc.).
+                foreach(DirectoryInfo dir in new DirectoryInfo("Views/").GetDirectories())
+                {
+                    //Look for subfolders inside the parent subfolder (Admin/Membership/, Admin/Shop/, etc.).
+                    foreach(DirectoryInfo subDir in dir.GetDirectories())
+                    {
+                        //Add the corresponding ViewLocationFormat, as a valid way of looking for views (Admin/Membership/Authors, Admin/Shop/Books, etc.).
+                        o.ViewLocationFormats.Add("/Views/{1}/" + subDir.Name + "/{0}" + RazorViewEngine.ViewExtension);
+                    }
+                }
+                o.ViewLocationFormats.Add("/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

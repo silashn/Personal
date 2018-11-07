@@ -25,7 +25,7 @@
                 <ul>
                     @foreach(DirectoryInfo dir in new DirectoryInfo("Views/Admin/").GetDirectories())
                     {
-                        FileInfo index = dir.GetFiles().FirstOrDefault(fi => fi.Name.ToLower().Contains("index"));
+                        FileInfo index = dir.GetFiles().FirstOrDefault(fi => fi.Name.ToLower().Substring(0, fi.Name.IndexOf(".")).Equals(dir.Name.ToLower()));
                         if(index != null)
                         {
                             <li class="parent_menu">
@@ -38,19 +38,22 @@
                                     <ul class="sub_menu">
                                         @foreach(FileInfo file in subMenu)
                                         {
-                                            <li>
-                                                <a asp-controller="Admin" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
-                                            { <text>current</text>}" asp- asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
-                                                    @if(file.Name.ToLower().Contains("index"))
-                                                    {
-                                                        <text>@(dir.Name)</text>
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
-                                                    }
-                                                </a>
-                                            </li>
+                                            if(file.Name != index.Name)
+                                            {
+                                                <li>
+                                                    <a asp-controller="Admin" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
+                                                { <text>current</text>}" asp- asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
+                                                        @if(file.Name.ToLower().Contains("index"))
+                                                        {
+                                                            <text>@(dir.Name)</text>
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
+                                                        }
+                                                    </a>
+                                                </li>
+                                            }
                                         }
                                     </ul>
                                 }
