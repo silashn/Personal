@@ -1,23 +1,44 @@
-﻿ul { margin: 0; padding: 0; }
-body { margin: 0; padding: 0 0 20px 0; }
-
-.clearfloats
+﻿::-webkit-scrollbar
 {
-    display:table;
-    content:"";
-    clear:both;
+   display:none;
 }
 
-.spacer.top_spacer_large
-{
-    margin-top:75px;
+body{
+    overflow-y:scroll;
+    overflow-x:hidden;
+    width:calc(100% + 8px);
 }
+
+body::-webkit-scrollbar
+{
+    width:8px;
+    display:inline-block;
+}
+
+body::-webkit-scrollbar-thumb
+{
+    background-color:#AAA;
+    border-radius:8px;
+}
+
+ul { margin: 0; padding: 0; }
+body { font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; margin: 0; padding: 0 0 20px 0; }
+a { color: #606; text-decoration: none; }
+
+.clearfloats { display: table; content: ""; clear: both; }
+
+.spacer.top_spacer_large { margin-top: 75px; }
+
+.table.admin_table { width: 100%; }
+    .table.admin_table th { text-align: left; background-color: #999; }
+    .table.admin_table tr:nth-child(2n+1) { background-color: #AAA; }
+    .table.admin_table th, .table.admin_table td {padding:5px;}
 
 wrapper { margin: 0 auto; display: block; width: 90%; max-width: 1060px; }
 
-header { width: 100%; height:50px; background-color: #CCC; position:absolute; top:0;}
+header { width: calc(100% + 8px); height: 50px; background-color: #CCC; position: absolute; top: 0; }
 nav ul { list-style: none; list-style-type: none; display: block; }
-    nav ul li { display: inline-block; text-align:center;}
+    nav ul li { display: inline-block; text-align: center; }
         nav ul li a { display: inline-flex; align-content: center; align-items: center; height: 50px; padding: 0 10px; color: #6B6B6B; font-style: normal; text-decoration: none; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif }
             nav ul li a:visited { color: #6B6B6B; }
             nav ul li a:hover, nav ul li a.current { color: #0B0B0B; }
@@ -28,14 +49,11 @@ nav ul { list-style: none; list-style-type: none; display: block; }
 .success { color: #0A0; }
 /*#endregion */
 
-.parent_menu{float:left;}
-.parent_menu_content {position:absolute;}
-.parent_menu:hover > .sub_menu { height:auto; }
-.sub_menu { background-color: #DDD; position: relative; height:0px; overflow:hidden;}
-.sub_menu li
-{
-    display:block;
-}
+.parent_menu { float: left; }
+.parent_menu_content { position: absolute; }
+.parent_menu:hover > .sub_menu { height: auto; }
+.sub_menu { background-color: #DDD; position: relative; height: 0px; overflow: hidden; }
+    .sub_menu li { display: block; }
 
 ul.right { float: right; }
 

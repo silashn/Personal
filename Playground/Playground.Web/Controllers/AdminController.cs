@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Playground.Data.Repositories;
+using Playground.Data.Repositories.Membership;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Playground.Areas.Admin.Controllers
         private readonly IAuthorRepository AuthorRepository;
         private readonly IBookRepository BookRepository;
         private readonly ICategoryRepository CategoryRepository;
+        private readonly IEmployeeRepository EmployeeRepository;
 
         private readonly IServiceProvider ServiceProvider;
         public AdminController(IServiceProvider serviceProvider)
@@ -21,12 +23,13 @@ namespace Playground.Areas.Admin.Controllers
             AuthorRepository = (IAuthorRepository)serviceProvider.GetService(typeof(IAuthorRepository));
             BookRepository = (IBookRepository)serviceProvider.GetService(typeof(IBookRepository));
             CategoryRepository = (ICategoryRepository)serviceProvider.GetService(typeof(ICategoryRepository));
+            EmployeeRepository = (IEmployeeRepository)serviceProvider.GetService(typeof(IEmployeeRepository));
             ServiceProvider = serviceProvider;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(EmployeeRepository.GetEmployees());
         }
 
         [Route("Admin/Membership")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Playground.Data.Repositories;
+using Playground.Data.Repositories.Membership;
 using Playground.Settings.Database;
 
 namespace Playground.Configuration.Services
@@ -16,6 +17,7 @@ namespace Playground.Configuration.Services
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
         }
     }
 }

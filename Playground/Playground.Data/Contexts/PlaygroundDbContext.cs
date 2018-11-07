@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Playground.Data.Models;
+using Playground.Data.Models.Membership;
 using Playground.Settings.Database;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Playground.Data.Contexts
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         public PlaygroundDbContext(DbContextOptions<PlaygroundDbContext> options) : base(options)
         {

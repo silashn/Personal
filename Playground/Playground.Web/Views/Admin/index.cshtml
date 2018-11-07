@@ -1,1 +1,23 @@
-﻿
+﻿@model List<Employee>
+
+<table cellspacing="0" class="table admin_table">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    @foreach(Employee employee in Model)
+    {
+        <tr>
+            <td>
+                @employee.Id
+            </td>
+            <td>
+                @employee.Name
+            </td>
+            <td>
+                @employee.Email
+            </td>
+        </tr>
+    }
+</table>

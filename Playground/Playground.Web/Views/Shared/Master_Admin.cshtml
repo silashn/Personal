@@ -67,7 +67,7 @@
     <wrapper class="spacer top_spacer_large">
         @if(ViewBag.Logo != null)
         {
-            <h1>@ViewBag.Logo</h1>
+            <h1><a asp-controller="Home" asp-action="Index">@ViewBag.Logo</a></h1>
         }
 
         @if(ViewBag.Title != null)

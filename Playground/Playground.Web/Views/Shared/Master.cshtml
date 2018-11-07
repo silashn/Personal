@@ -29,31 +29,31 @@
                         if(index != null)
                         {
                             <li class="parent_menu">
-                                    <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
-                                        <text>@(dir.Name)</text>
-                                    </a>
-                                    @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
-                                    @if(subMenu != null && subMenu.ToList().Count > 0)
-                                    {
-                                        <ul class="sub_menu">
-                                            @foreach(FileInfo file in subMenu)
-                                            {
-                                                <li>
-                                                    <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
+                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
+                                    <text>@(dir.Name)</text>
+                                </a>
+                                @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
+                                @if(subMenu != null && subMenu.ToList().Count > 0)
+                                {
+                                    <ul class="sub_menu">
+                                        @foreach(FileInfo file in subMenu)
+                                        {
+                                            <li>
+                                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
                                             { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
-                                                        @if(file.Name.ToLower().Contains("index"))
-                                                        {
-                                                            <text>@(dir.Name)</text>
-                                                        }
-                                                        else
-                                                        {
-                                                            <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
-                                                        }
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
+                                                    @if(file.Name.ToLower().Contains("index"))
+                                                    {
+                                                        <text>@(dir.Name)</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>@(file.Name.Substring(0, file.Name.IndexOf(".")))</text>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
                             </li>
                         }
                     }
@@ -65,7 +65,7 @@
     <wrapper class="spacer top_spacer_large">
         @if(ViewBag.Logo != null)
         {
-            <h1>@ViewBag.Logo</h1>
+            <h1><a asp-controller="Home" asp-action="Index">@ViewBag.Logo</a></h1>
         }
 
         @if(ViewBag.Title != null)
@@ -74,5 +74,6 @@
         }
         @RenderBody()
     </wrapper>
+    <div class="clearfloats"></div>
 </body>
 </html>
