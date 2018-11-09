@@ -32,12 +32,6 @@ namespace Playground.Areas.Admin.Controllers
             return View(EmployeeRepository.GetEmployees());
         }
 
-        [Route("Admin/Membership")]
-        public IActionResult Membership()
-        {
-            return View();
-        }
-
         [Route("Admin/Shop")]
         public IActionResult Shop()
         {

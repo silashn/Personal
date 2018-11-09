@@ -53,6 +53,7 @@ namespace Playground.Web
                     {
                         //Add the corresponding ViewLocationFormat, as a valid way of looking for views (Admin/Membership/Authors, Admin/Shop/Books, etc.).
                         o.ViewLocationFormats.Add("/Views/{1}/" + subDir.Name + "/{0}" + RazorViewEngine.ViewExtension);
+                        o.ViewLocationFormats.Add(("/Views/Admin/" + subDir.Name + "/{0}") + RazorViewEngine.ViewExtension);
                     }
                 }
                 o.ViewLocationFormats.Add("/Views/Shared/{0}" + RazorViewEngine.ViewExtension);

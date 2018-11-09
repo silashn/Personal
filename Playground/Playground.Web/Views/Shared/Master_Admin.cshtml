@@ -29,7 +29,7 @@
                         if(index != null)
                         {
                             <li class="parent_menu">
-                                <a asp-controller="Admin" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
+                                <a asp-controller="Admin@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
                                     <text>@(dir.Name)</text>
                                 </a>
                                 @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
