@@ -29,7 +29,7 @@
                         if(index != null)
                         {
                             <li class="parent_menu">
-                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
+                                <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))" asp-route-id="">
                                     <text>@(dir.Name)</text>
                                 </a>
                                 @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
@@ -40,7 +40,7 @@
                                         {
                                             <li>
                                                 <a asp-controller="@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
-                                            { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
+                                            { <text>current</text>}" asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))" asp-route-id="">
                                                     @if(file.Name.ToLower().Contains("index"))
                                                     {
                                                         <text>@(dir.Name)</text>

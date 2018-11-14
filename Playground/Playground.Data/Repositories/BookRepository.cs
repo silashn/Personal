@@ -19,7 +19,7 @@ namespace Playground.Data.Repositories
         {
             using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
             {
-                return db.Books.FirstOrDefault(b => b.Id.Equals(id));
+                return db.Books.Include(b => b.BookAuthors).ThenInclude(ba => ba.Author).Include(b => b.BookCategories).ThenInclude(bc => bc.Category).FirstOrDefault(b => b.Id.Equals(id));
             }
         }
 

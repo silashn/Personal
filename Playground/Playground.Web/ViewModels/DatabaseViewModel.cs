@@ -1,4 +1,5 @@
 ﻿using Playground.Data.Models;
+using Playground.Data.Models.Elements;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,12 +27,5 @@ namespace Playground.Web.ViewModels
         public string SystemMessage { get; set; }
         public List<CheckBox> CheckBoxList { get; set; }
         #endregion
-    }
-
-    public class CheckBox
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool Checked { get; set; }
     }
 }

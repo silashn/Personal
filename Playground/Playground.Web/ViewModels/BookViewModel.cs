@@ -6,6 +6,7 @@ namespace Playground.Web.ViewModels
 {
     public class BookViewModel
     {
+        public int? Id { get; set; }
         [Required(ErrorMessage = "*")]
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]

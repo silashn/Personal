@@ -4,8 +4,10 @@ namespace Playground.Data.Repositories
 {
     public interface IAuthorRepository
     {
+
         Author GetAuthor(int id);
         System.Collections.Generic.List<Author> GetAuthors();
         string Create(Author author);
+        string Update(Author author);
     }
 }

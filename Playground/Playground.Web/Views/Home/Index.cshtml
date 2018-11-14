@@ -14,29 +14,31 @@
     <h1>Books</h1>
     @foreach(Book book in Model.Books)
     {
-        <h3><b>@book.Title</b></h3>
-        @if(book.Description != null)
-        {
-            <p>@book.Description</p>
-        }
-
-        @if(book.BookCategories != null && book.BookCategories.Count > 0)
-        {
-            <h4><i><b>Categories:</b></i></h4>
-            @foreach(Category category in book.BookCategories.Select(bc => bc.Category))
+        <a asp-controller="Home" asp-action="Index" asp-route-id="@(book.Id)">
+            <h3><b>@book.Title</b></h3>
+            @if(book.Description != null)
             {
-                <p class="category">@(category.Name)</p>
+                <p>@book.Description</p>
             }
-        }
 
-        @if(book.BookAuthors != null && book.BookAuthors.Count > 0)
-        {
-            <h4><i><b>Authors:</b></i></h4>
-            @foreach(Author author in book.BookAuthors.Select(ba => ba.Author))
+            @if(book.BookCategories != null && book.BookCategories.Count > 0)
             {
-                <p class="author">@(author.Name)</p>
+                <h4><i><b>Categories:</b></i></h4>
+                @foreach(Category category in book.BookCategories.Select(bc => bc.Category))
+                {
+                    <p class="category">@(category.Name)</p>
+                }
             }
-        }
+
+            @if(book.BookAuthors != null && book.BookAuthors.Count > 0)
+            {
+                <h4><i><b>Authors:</b></i></h4>
+                @foreach(Author author in book.BookAuthors.Select(ba => ba.Author))
+                {
+                    <p class="author">@(author.Name)</p>
+                }
+            }
+        </a>
     }
     <br />
 
@@ -84,10 +86,10 @@
 
         for(int i = 0; i < Model.CheckBoxList.Count; i++)
         {
-            <input type="checkbox" asp-for="CheckBoxList[i].Checked" />
-            <label asp-for="CheckBoxList[i].Checked">@Model.CheckBoxList[i].Name</label>
+            <input type="checkbox" checked="@Model.CheckBoxList[i].Checked" asp-for="CheckBoxList[i].Checked" />
+            <label asp-for="CheckBoxList[i].Checked">@Model.CheckBoxList[i].Text</label>
             <input type="hidden" asp-for="CheckBoxList[i].Id" />
-            <input type="hidden" asp-for="CheckBoxList[i].Name" />
+            <input type="hidden" asp-for="CheckBoxList[i].Text" />
 
             <br />
         }

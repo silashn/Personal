@@ -23,13 +23,14 @@
         <wrapper>
             <nav>
                 <ul>
+                    <li class="parent_menu"><a asp-controller="Home" asp-action="Index">Home</a></li>
                     @foreach(DirectoryInfo dir in new DirectoryInfo("Views/Admin/").GetDirectories())
                     {
                         FileInfo index = dir.GetFiles().FirstOrDefault(fi => fi.Name.ToLower().Substring(0, fi.Name.IndexOf(".")).Equals(dir.Name.ToLower()));
                         if(index != null)
                         {
                             <li class="parent_menu">
-                                <a asp-controller="Admin@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
+                                <a asp-controller="Admin@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, "Admin" + dir.Name, index.Name.Substring(0, index.Name.IndexOf(".")))) { <text>current</text>}" asp-action="@(index.Name.Substring(0, index.Name.IndexOf(".")))">
                                     <text>@(dir.Name)</text>
                                 </a>
                                 @{ IEnumerable<FileInfo> subMenu = dir.GetFiles().Where(fi => !fi.Name.ToLower().Contains("index"));}
@@ -41,7 +42,7 @@
                                             if(file.Name != index.Name)
                                             {
                                                 <li>
-                                                    <a asp-controller="Admin" class="@if(UrlManager.IsCurrent(ViewContext, dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
+                                                    <a asp-controller="Admin@(dir.Name)" class="@if(UrlManager.IsCurrent(ViewContext, "Admin" + dir.Name, file.Name.Substring(0, file.Name.IndexOf("."))))
                                                 { <text>current</text>}" asp- asp-action="@(file.Name.Substring(0, file.Name.IndexOf(".")))">
                                                         @if(file.Name.ToLower().Contains("index"))
                                                         {

@@ -1,1 +1,63 @@
-﻿@{ ViewBag.Title = "Authors";}
+﻿@using Playground.Data.Models;
+@model AuthorViewModel
+@{ ViewBag.Title = "Authors";}
+
+@if(Model.Id != null)
+{
+    ViewBag.Title = "Authors - " + Model.Name;
+}
+
+@if(Model.SystemMessage != null && Model.SystemMessage != "")
+{
+    <div class="SystemMessages">@Html.Raw(Model.SystemMessage)</div>
+}
+else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
+{
+    <div class="SystemMessages">@Html.Raw(TempData["SystemMessage"])</div>
+    TempData.Clear();
+}
+@using(Html.BeginForm("Authors", "AdminMembership", FormMethod.Post))
+{
+    <div asp-validation-summary="All"></div>
+    <label asp-for="Name">Name:</label>
+    <input asp-for="Name" placeholder="Name" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    if(Model.Id != null)
+    {
+        <input type="submit" asp-route-response="Edit" asp-route-id="@Model.Id" value="Save" />
+    }
+    else
+    {
+        <input type="submit" value="Save" />
+    }
+}
+
+
+<table class="table admin_table" cellpadding="0" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Books</th>
+        <th></th>
+    </tr>
+    @foreach(Author author in Model.Authors)
+    {
+        <tr>
+            <td>
+                @author.Id
+            </td>
+            <td>
+                @author.Name
+            </td>
+            <td>
+                @author.BookAuthors.ToList().Count
+            </td>
+            <td>
+                <a asp-controller="AdminMembership" asp-action="Authors" asp-route-response="Edit" asp-route-id="@author.Id">
+                    &#9998;
+                </a>
+            </td>
+        </tr>
+    }
+</table>

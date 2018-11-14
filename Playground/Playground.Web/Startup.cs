@@ -77,9 +77,18 @@ namespace Playground.Web
             app.UseSession();
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                routes.MapRoute
+                (
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
+
+                routes.MapRoute
+                (
+                    name: "admin",
+                    template: "Admin/{action}/{response?}/{id?}",
+                    defaults: new { controller = "Admin", action = "Index" }
+                );
             });
         }
     }
