@@ -1,6 +1,6 @@
 ﻿using Playground.Data.Models;
 
-namespace Playground.Data.Repositories
+namespace Playground.Data.Repositories.Shop
 {
     public interface ICategoryRepository
     {
@@ -9,5 +9,7 @@ namespace Playground.Data.Repositories
         bool CategoryExists(string name);
         System.Collections.Generic.List<Category> GetCategories();
         string Create(Category category);
+        string Update(Category category);
+        string Delete(Category category);
     }
 }

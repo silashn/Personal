@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Playground.Data.Repositories;
+using Playground.Data.Repositories.Shop;
 
 namespace Playground.Web.Controllers.ValidationControllers
 {

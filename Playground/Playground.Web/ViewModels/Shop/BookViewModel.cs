@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Playground.Web.ViewModels
+namespace Playground.Web.ViewModels.Shop
 {
     public class BookViewModel
     {

@@ -1,5 +1,7 @@
 ﻿using Playground.Data.Models;
 using Playground.Data.Models.Elements;
+using Playground.Web.ViewModels.Membership;
+using Playground.Web.ViewModels.Shop;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

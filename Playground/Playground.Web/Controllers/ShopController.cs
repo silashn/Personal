@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Playground.Data.Models;
-using Playground.Data.Repositories;
+using Playground.Data.Repositories.Shop;
 
 namespace Playground.Web.Controllers
 {

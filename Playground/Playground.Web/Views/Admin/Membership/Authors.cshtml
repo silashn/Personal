@@ -26,10 +26,11 @@ else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
     if(Model.Id != null)
     {
         <input type="submit" asp-route-response="Edit" asp-route-id="@Model.Id" value="Save" />
+        <a asp-action="Authors" asp-controller="AdminMembership">Cancel</a>
     }
     else
     {
-        <input type="submit" value="Save" />
+        <input type="submit" value="Create" />
     }
 }
 
@@ -39,6 +40,7 @@ else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
         <th>Id</th>
         <th>Name</th>
         <th>Books</th>
+        <th></th>
         <th></th>
     </tr>
     @foreach(Author author in Model.Authors)
@@ -56,6 +58,11 @@ else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
             <td>
                 <a asp-controller="AdminMembership" asp-action="Authors" asp-route-response="Edit" asp-route-id="@author.Id">
                     &#9998;
+                </a>
+            </td>
+            <td>
+                <a onclick="return confirm('Really delete author @(author.Name)?')" asp-controller="AdminMembership" asp-action="Authors" asp-route-response="Delete" asp-route-id="@author.Id">
+                    &#10006;
                 </a>
             </td>
         </tr>

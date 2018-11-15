@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Playground.Data.Models;
 using Playground.Data.Models.Elements;
-using Playground.Data.Repositories;
+using Playground.Data.Repositories.Shop;
+using Playground.Data.Repositories.Membership;
 using Playground.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Playground.Web.ViewModels.Shop;
 
 namespace Playground.Web.Controllers
 {

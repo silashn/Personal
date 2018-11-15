@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Playground.Data.Repositories;
+using Playground.Data.Repositories.Shop;
 using Playground.Data.Repositories.Membership;
 using Playground.Settings.Database;
 

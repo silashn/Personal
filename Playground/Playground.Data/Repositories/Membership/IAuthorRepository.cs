@@ -1,6 +1,6 @@
 ﻿using Playground.Data.Models;
 
-namespace Playground.Data.Repositories
+namespace Playground.Data.Repositories.Membership
 {
     public interface IAuthorRepository
     {
@@ -9,5 +9,6 @@ namespace Playground.Data.Repositories
         System.Collections.Generic.List<Author> GetAuthors();
         string Create(Author author);
         string Update(Author author);
+        string Delete(Author author);
     }
 }

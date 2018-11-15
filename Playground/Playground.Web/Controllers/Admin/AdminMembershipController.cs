@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Playground.Data.Models;
-using Playground.Data.Repositories;
 using Playground.Data.Repositories.Membership;
-using Playground.Web.ViewModels;
+using Playground.Web.ViewModels.Membership;
 using System;
-using System.Linq;
 
 namespace Playground.Web.Controllers.Admin
 {
@@ -30,14 +28,16 @@ namespace Playground.Web.Controllers.Admin
         [Route("Authors")]
         public IActionResult Authors(int? id, string response)
         {
-            AuthorViewModel model = new AuthorViewModel()
-            {
-                Authors = AuthorRepository.GetAuthors()
-            };
+            AuthorViewModel model = new AuthorViewModel();
 
             if(id != null)
             {
                 Author author = AuthorRepository.GetAuthor(Convert.ToInt32(id));
+                if(author == null)
+                {
+                    return RedirectToAction("Authors", "AdminMembership");
+                }
+
                 switch(response)
                 {
                     case "Edit":
@@ -48,15 +48,24 @@ namespace Playground.Web.Controllers.Admin
 
                     case "Delete":
                         {
+                            model.SystemMessage = AuthorRepository.Delete(author);
+                            model = LoadAuthorModel(model);
+                            TempData["SystemMessage"] = model.SystemMessage;
+                            return RedirectToAction("Authors", "AdminMembership");
                         }
-                        break;
 
                     default:
                         {
-
+                            return RedirectToAction("Authors", "AdminMembership");
                         }
-                        break;
                 }
+            }
+            else
+            {
+                if(response != null)
+                    return RedirectToAction("Authors", "AdminMembership");
+
+                model = LoadAuthorModel(model);
             }
             return View(model);
         }
@@ -87,15 +96,15 @@ namespace Playground.Web.Controllers.Admin
 
                 ModelState.Clear();
 
-            TempData["SystemMessage"] = model.SystemMessage;
+                TempData["SystemMessage"] = model.SystemMessage;
 
                 return RedirectToAction("Authors", "AdminMembership");
             }
             if(model.Id != null)
             {
-                    Author author = AuthorRepository.GetAuthor(Convert.ToInt32(model.Id));
+                Author author = AuthorRepository.GetAuthor(Convert.ToInt32(model.Id));
 
-                    model = LoadAuthorModel(model, author);
+                model = LoadAuthorModel(model, author);
             }
             else
             {
@@ -110,7 +119,6 @@ namespace Playground.Web.Controllers.Admin
         {
             model.Id = author.Id;
             model.Name = author.Name;
-            model.Books = author.BookAuthors.Select(ba => ba.Book).ToList();
             model.Authors = AuthorRepository.GetAuthors();
             return model;
         }

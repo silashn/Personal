@@ -21,6 +21,8 @@ namespace Playground.Data.Contexts
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<BookAuthor> BookAuthor { get; set; }
+        public DbSet<BookCategory> BookCategory { get; set; }
 
         public PlaygroundDbContext(DbContextOptions<PlaygroundDbContext> options) : base(options)
         {

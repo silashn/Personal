@@ -1,1 +1,58 @@
-﻿@{ ViewBag.Title = "Categories";}
+﻿@model CategoryViewModel
+
+@{ ViewBag.Title = "Categories";}
+
+@if(Model.SystemMessage != null && Model.SystemMessage != "")
+{
+    <div class="SystemMessages">@Html.Raw(Model.SystemMessage)</div>
+}
+else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
+{
+    <div class="SystemMessages">@Html.Raw(TempData["SystemMessage"])</div>
+    TempData.Clear();
+}
+
+@using(Html.BeginForm("Categories", "AdminShop", FormMethod.Post))
+{
+    <label asp-for="Name">Name</label>
+    <input asp-for="Name" placeholder="Name" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    if(Model.Id != null)
+    {
+        <input type="submit" asp-route-response="Edit" asp-route-id="@Model.Id" value="Save" />
+
+    }
+    else
+    {
+        <input type="submit" value="Create" />
+    }
+}
+
+<table class="table admin_table" cellpadding="0" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Books</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach(Category category in Model.Categories)
+    {
+        <tr>
+            <td>@category.Id</td>
+            <td>@category.Name</td>
+            <td>@category.BookCategories.Count</td>
+            <td>
+                <a asp-controller="AdminShop" asp-action="Categories" asp-route-response="Edit" asp-route-id="@category.Id">
+                    &#9998;
+                </a>
+            </td>
+            <td>
+                <a onclick="return confirm('Really delete category @(category.Name)?')" asp-controller="AdminShop" asp-action="Categories" asp-route-response="Delete" asp-route-id="@category.Id">
+                    &#10006;
+                </a>
+            </td>
+        </tr>
+    }
+</table>

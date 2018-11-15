@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Playground.Data.Repositories
+namespace Playground.Data.Repositories.Shop
 {
     public class BookRepository : DatabaseClient, IBookRepository
     {
@@ -107,7 +107,7 @@ namespace Playground.Data.Repositories
         }
         #endregion
 
-        public string Insert(Book book)
+        public string Create(Book book)
         {
             string title = "NULL";
             if(book != null)

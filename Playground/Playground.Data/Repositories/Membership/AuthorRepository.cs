@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Playground.Data.Repositories
+namespace Playground.Data.Repositories.Membership
 {
     public class AuthorRepository : DatabaseClient, IAuthorRepository
     {
+        private readonly IServiceProvider ServiceProvider;
         public AuthorRepository(DatabaseSettings settings) : base(settings)
         {
         }
@@ -51,7 +52,7 @@ namespace Playground.Data.Repositories
             }
             catch(Exception e)
             {
-                return "<p class='error'>Could not insert author '" + name + "': " + e.Message + "</p>" + "</p>" + (e.InnerException != null ? "<p style='color:#FA5;'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
+                return "<p class='error'>Could not insert author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
             }
         }
 
@@ -67,9 +68,7 @@ namespace Playground.Data.Repositories
             {
                 using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
                 {
-                    Author updateAuthor = db.Authors.FirstOrDefault(a => a.Id.Equals(author.Id));
-                    updateAuthor.Name = author.Name;
-                    db.Authors.Update(updateAuthor);
+                    db.Authors.Update(author);
                     db.SaveChanges();
                 }
 
@@ -77,7 +76,32 @@ namespace Playground.Data.Repositories
             }
             catch(Exception e)
             {
-                return "<p class='error'>Could not update author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p style='color:#FA5;'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
+                return "<p class='error'>Could not update author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
+            }
+        }
+
+        public string Delete(Author author)
+        {
+            string name = "NULL";
+            if(author != null)
+            {
+                name = author.Name;
+            }
+
+            try
+            {
+                using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
+                {
+                    db.BookAuthor.RemoveRange(author.BookAuthors);
+                    db.Authors.Remove(author);
+                    db.SaveChanges();
+                }
+
+                return "<p class='success'>Successfully deleted author '" + name + "'.</p>";
+            }
+            catch(Exception e)
+            {
+                return "<p class='error'>Could not delete author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
             }
         }
     }

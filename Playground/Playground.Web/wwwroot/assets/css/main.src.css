@@ -45,6 +45,7 @@ nav ul { list-style: none; list-style-type: none; display: block; }
 
 /*#region Messages */
 .error { color: #F00; }
+.error.inner_exception {color:#FA5;}
 
 .success { color: #0A0; }
 /*#endregion */
