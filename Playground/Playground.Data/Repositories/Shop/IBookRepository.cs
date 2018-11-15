@@ -14,6 +14,8 @@ namespace Playground.Data.Repositories.Shop
         List<Book> GetBooks(List<Category> categories);
 
         string Create(Book book);
+        string Update(Book book);
+        string Delete(Book book);
         
     }
 }

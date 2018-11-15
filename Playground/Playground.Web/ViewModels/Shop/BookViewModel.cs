@@ -1,4 +1,5 @@
 ﻿using Playground.Data.Models;
+using Playground.Data.Models.Elements;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,5 +14,9 @@ namespace Playground.Web.ViewModels.Shop
         public string Description { get; set; }
         public List<Author> Authors { get; set; }
         public List<Category> Categories { get; set; }
+        public List<Book> Books { get; set; }
+
+        public List<CheckBox> CheckBoxList_Authors { get; set; }
+        public List<CheckBox> CheckBoxList_Categories { get; set; }
     }
 }
