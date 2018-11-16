@@ -18,5 +18,6 @@ namespace Playground.Web.ViewModels.Shop
 
         public List<CheckBox> CheckBoxList_Authors { get; set; }
         public List<CheckBox> CheckBoxList_Categories { get; set; }
+        public string SystemMessage { get; set; }
     }
 }

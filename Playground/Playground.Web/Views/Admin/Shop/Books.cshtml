@@ -1,1 +1,101 @@
 ﻿@{ ViewBag.Title = "Books";}
+@model BookViewModel
+
+
+@if(Model.SystemMessage != null && Model.SystemMessage != "")
+{
+    <div class="SystemMessages">@Html.Raw(Model.SystemMessage)</div>
+}
+else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
+{
+    <div class="SystemMessages">@Html.Raw(TempData["SystemMessage"])</div>
+    TempData.Clear();
+}
+
+
+@using(Html.BeginForm("Books", "AdminShop", FormMethod.Post))
+{
+    <label asp-for="Title">Title</label>
+    <input asp-for="Title" />
+    <span asp-validation-for="Title"></span>
+    <br />
+    <label asp-for="Description">Description</label>
+    <textarea asp-for="Description" draggable="false" placeholder="Description"></textarea>
+    <span asp-validation-for="Description"></span>
+    <br />
+    <label class="spacer spacer_medium">Authors:</label>
+    @for(int i = 0; i < Model.CheckBoxList_Authors.Count; i++)
+    {
+        <input type="checkbox" checked="@Model.CheckBoxList_Authors[i].Checked" asp-for="CheckBoxList_Authors[i].Checked" />
+        <label asp-for="CheckBoxList_Authors[i].Checked">@Model.CheckBoxList_Authors[i].Text</label>
+        <input type="hidden" asp-for="CheckBoxList_Authors[i].Id" />
+        <input type="hidden" asp-for="CheckBoxList_Authors[i].Text" />
+
+        <br />
+    }
+
+    <label class="spacer spacer_medium">Categories:</label>
+    @for(int i = 0; i < Model.CheckBoxList_Categories.Count; i++)
+    {
+        <input type="checkbox" checked="@Model.CheckBoxList_Categories[i].Checked" asp-for="CheckBoxList_Categories[i].Checked" />
+        <label asp-for="CheckBoxList_Categories[i].Checked">@Model.CheckBoxList_Categories[i].Text</label>
+        <input type="hidden" asp-for="CheckBoxList_Categories[i].Id" />
+        <input type="hidden" asp-for="CheckBoxList_Categories[i].Text" />
+
+        <br />
+    }
+
+    if(Model.Id != null)
+    {
+        <input type="submit" asp-route-response="Edit" asp-route-id="@Model.Id" value="Save" />
+
+    }
+    else
+    {
+        <input type="submit" value="Create" />
+    }
+}
+
+<div class="spacer top_spacer_large"></div>
+
+<table class="table admin_table" cellpadding="0" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Authors</th>
+        <th>Categories</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach(Book book in Model.Books)
+    {
+        <tr>
+            <td>@book.Id</td>
+            <td>@book.Title</td>
+            <td>@(book.Description != null && book.Description.Length > 30 ? book.Description.Substring(0, 27).Substring(0, book.Description.Substring(0, 27).LastIndexOf(" ")) + "..." : book.Description )</td>
+            <td>
+                @foreach(Author author in book.BookAuthors.Select(ba => ba.Author))
+                {
+                    <p>@author.Name</p>
+                }
+            </td>
+            <td>
+                @foreach(Category category in book.BookCategories.Select(bc => bc.Category))
+                {
+                    <p>@category.Name</p>
+                }
+            </td>
+            <td>
+                <a asp-controller="AdminShop" asp-action="Books" asp-route-response="Edit" asp-route-id="@book.Id">
+                    &#9998;
+                </a>
+            </td>
+            <td>
+                <a onclick="return confirm('Really delete book @(book.Title)?')" asp-controller="AdminShop" asp-action="Books" asp-route-response="Delete" asp-route-id="@book.Id">
+                    &#10006;
+                </a>
+            </td>
+        </tr>
+    }
+</table>

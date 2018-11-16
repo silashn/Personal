@@ -119,10 +119,9 @@ namespace Playground.Data.Repositories.Shop
             {
                 using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
                 {
+                    db.Books.Add(book);
                     db.BookAuthor.AddRange(book.BookAuthors);
                     db.BookCategory.AddRange(book.BookCategories);
-                    db.Books.Add(book);
-
                     db.SaveChanges();
                 }
                     return "<p class='success'>Successfully inserted book '" + title + "'.";
@@ -146,17 +145,17 @@ namespace Playground.Data.Repositories.Shop
                 using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
                 {
                     Book dbBook = db.Books.Include(b => b.BookAuthors).Include(b => b.BookCategories).FirstOrDefault(b => b.Id.Equals(book.Id));
-                    db.BookAuthor.RemoveRange(dbBook.BookAuthors.Where(ba => !book.BookAuthors.Contains(ba)));
-                    db.BookCategory.RemoveRange(dbBook.BookCategories.Where(bc => !book.BookCategories.Contains(bc)));
+                    db.BookAuthor.RemoveRange(dbBook.BookAuthors.Where(ba => !book.BookAuthors.Select(_ba => _ba.AuthorId).Contains(ba.AuthorId)));
+                    db.BookCategory.RemoveRange(dbBook.BookCategories.Where(bc => !book.BookCategories.Select(_bc => _bc.CategoryId).Contains(bc.CategoryId)));
 
-                    db.BookAuthor.AddRange(book.BookAuthors.Where(ba => !dbBook.BookAuthors.Contains(ba)));
-                    db.BookCategory.AddRange(book.BookCategories.Where(bc => !dbBook.BookCategories.Contains(bc)));
+                    db.BookAuthor.AddRange(book.BookAuthors.Where(ba => !dbBook.BookAuthors.Select(_ba => _ba.AuthorId).Contains(ba.AuthorId)));
+                    db.BookCategory.AddRange(book.BookCategories.Where(bc => !dbBook.BookCategories.Select(_bc => _bc.CategoryId).Contains(bc.CategoryId)));
 
                     db.Books.Update(book);
 
                     db.SaveChanges();
                 }
-                    return "<p class='success'>Successfully updated book '" + title + "'.";
+                return "<p class='success'>Successfully updated book '" + title + "'.";
             }
             catch(Exception e)
             {
@@ -190,5 +189,6 @@ namespace Playground.Data.Repositories.Shop
                 return "<p class='error'>Could not delete book '" + title + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
             }
         }
+
     }
 }

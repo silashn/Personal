@@ -45,27 +45,92 @@ namespace Playground.Web.Controllers.Admin
                 switch(response)
                 {
                     case "Edit":
-                        {
-                            model = LoadBookModel(model, book);
-                        }
-                        break;
+                    {
+                        model = LoadBookModel(model, book);
+                    }
+                    break;
                     case "Delete":
-                        {
-                            TempData["SystemMessage"] = BookRepository.Delete(book);
-                            model = LoadBookModel(model);
-                            return RedirectToAction("Categories", "AdminShop");
-                        }
+                    {
+                        TempData["SystemMessage"] = BookRepository.Delete(book);
+                        model = LoadBookModel(model);
+                        return RedirectToAction("Books", "AdminShop");
+                    }
                     default:
-                        return RedirectToAction("Categories", "AdminShop");
+                        return RedirectToAction("Books", "AdminShop");
                 }
             }
             else
             {
                 if(response != null)
-                    return RedirectToAction("Categories", "AdminShop");
+                    return RedirectToAction("Books", "AdminShop");
 
                 model = LoadBookModel(model);
             }
+            return View(model);
+        }
+
+        [Route("Books")]
+        [HttpPost]
+        public IActionResult Books(BookViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                if(model.Id != null)
+                {
+                    Book book = BookRepository.GetBook(Convert.ToInt32(model.Id));
+                    if(book == null)
+                        return RedirectToAction("Books", "AdminShop");
+
+                    book.Title = model.Title;
+                    book.Description = model.Description;
+
+                    foreach(CheckBox bookAuthor in model.CheckBoxList_Authors.Where(cbl_a => cbl_a.Checked))
+                        book.BookAuthors.Add(new BookAuthor() { AuthorId = bookAuthor.Id, BookId = book.Id });
+
+                    foreach(CheckBox bookCategory in model.CheckBoxList_Categories.Where(cbl_c => cbl_c.Checked))
+                        book.BookCategories.Add(new BookCategory() { CategoryId = bookCategory.Id, BookId = book.Id });
+
+                    model.SystemMessage = BookRepository.Update(book);
+                    model = LoadBookModel(model, book);
+                }
+                else
+                {
+                    Book book = new Book()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        BookAuthors = new List<BookAuthor>(),
+                        BookCategories = new List<BookCategory>()
+                    };
+
+                    foreach(CheckBox bookAuthor in model.CheckBoxList_Authors.Where(cbl_a => cbl_a.Checked))
+                        book.BookAuthors.Add(new BookAuthor() { AuthorId = bookAuthor.Id, BookId = book.Id });
+
+                    foreach(CheckBox bookCategory in model.CheckBoxList_Categories.Where(cbl_c => cbl_c.Checked))
+                        book.BookCategories.Add(new BookCategory() { CategoryId = bookCategory.Id, BookId = book.Id });
+
+                    model.SystemMessage = BookRepository.Create(book);
+                    model = LoadBookModel(model);
+                }
+
+                TempData["SystemMessage"] = model.SystemMessage;
+
+                return RedirectToAction("Books", "AdminShop");
+            }
+
+            ModelState.Clear();
+
+            if(model.Id != null)
+            {
+                Book book = BookRepository.GetBook(Convert.ToInt32(model.Id));
+
+                model = LoadBookModel(model, book);
+            }
+            else
+            {
+                model = LoadBookModel(model);
+            }
+
             return View(model);
         }
 
@@ -83,16 +148,16 @@ namespace Playground.Web.Controllers.Admin
                 switch(response)
                 {
                     case "Edit":
-                        {
-                            model = LoadCategoryModel(model, category);
-                        }
-                        break;
+                    {
+                        model = LoadCategoryModel(model, category);
+                    }
+                    break;
                     case "Delete":
-                        {
-                            TempData["SystemMessage"] = CategoryRepository.Delete(category);
-                            model = LoadCategoryModel(model);
-                            return RedirectToAction("Categories", "AdminShop");
-                        }
+                    {
+                        TempData["SystemMessage"] = CategoryRepository.Delete(category);
+                        model = LoadCategoryModel(model);
+                        return RedirectToAction("Categories", "AdminShop");
+                    }
                     default:
                         return RedirectToAction("Categories", "AdminShop");
                 }
@@ -177,10 +242,14 @@ namespace Playground.Web.Controllers.Admin
             model.Title = book.Title;
             model.Description = book.Description;
             model.Books = BookRepository.GetBooks();
-            foreach(BookAuthor bookAuthor in AuthorRepository.GetAuthors().SelectMany(a => a.BookAuthors))
-                model.CheckBoxList_Authors.Add(new CheckBox() { Checked = book.BookAuthors.Where(ba => ba.Id.Equals(bookAuthor.Id)).ToList().Count > 0, Id = bookAuthor.Id, Text = bookAuthor.Author.Name });
-            foreach(BookCategory bookCategory in CategoryRepository.GetCategories().SelectMany(c => c.BookCategories))
-                model.CheckBoxList_Categories.Add(new CheckBox() { Checked = book.BookCategories.Where(bc => bc.Id.Equals(bookCategory.Id)).ToList().Count > 0, Id = bookCategory.Id, Text = bookCategory.Category.Name });
+            model.CheckBoxList_Authors = new List<CheckBox>();
+            model.CheckBoxList_Categories = new List<CheckBox>();
+
+            foreach(Author author in AuthorRepository.GetAuthors())
+                model.CheckBoxList_Authors.Add(new CheckBox() { Checked = book.BookAuthors.Where(ba => ba.AuthorId.Equals(author.Id)).ToList().Count > 0, Id = author.Id, Text = author.Name });
+            foreach(Category category in CategoryRepository.GetCategories())
+                model.CheckBoxList_Categories.Add(new CheckBox() { Checked = book.BookCategories.Where(bc => bc.CategoryId.Equals(category.Id)).ToList().Count > 0, Id = category.Id, Text = category.Name });
+
             return model;
         }
 
@@ -190,10 +259,12 @@ namespace Playground.Web.Controllers.Admin
             model.Books = BookRepository.GetBooks();
             model.CheckBoxList_Authors = new List<CheckBox>();
             model.CheckBoxList_Categories = new List<CheckBox>();
-            foreach(BookAuthor bookAuthor in AuthorRepository.GetAuthors().SelectMany(a => a.BookAuthors))
-                model.CheckBoxList_Authors.Add(new CheckBox() { Checked = false, Id = bookAuthor.Id, Text = bookAuthor.Author.Name });
-            foreach(BookCategory bookCategory in CategoryRepository.GetCategories().SelectMany(c => c.BookCategories))
-                model.CheckBoxList_Categories.Add(new CheckBox() { Checked = false, Id = bookCategory.Id, Text = bookCategory.Category.Name });
+
+            foreach(Author author in AuthorRepository.GetAuthors())
+                model.CheckBoxList_Authors.Add(new CheckBox() { Checked = false, Id = author.Id, Text = author.Name });
+            foreach(Category category in CategoryRepository.GetCategories())
+                model.CheckBoxList_Categories.Add(new CheckBox() { Checked = false, Id = category.Id, Text = category.Name });
+
             return model;
         }
     }
