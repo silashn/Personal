@@ -84,11 +84,17 @@ namespace Playground.Web.Controllers.Admin
                     book.Title = model.Title;
                     book.Description = model.Description;
 
-                    foreach(CheckBox bookAuthor in model.CheckBoxList_Authors.Where(cbl_a => cbl_a.Checked))
+                    foreach(CheckBox bookAuthor in model.CheckBoxList_Authors.Where(cbl_a => cbl_a.Checked && !book.BookAuthors.Select(ba => ba.AuthorId).Contains(cbl_a.Id)))
                         book.BookAuthors.Add(new BookAuthor() { AuthorId = bookAuthor.Id, BookId = book.Id });
 
-                    foreach(CheckBox bookCategory in model.CheckBoxList_Categories.Where(cbl_c => cbl_c.Checked))
+                    foreach(CheckBox bookCategory in model.CheckBoxList_Categories.Where(cbl_c => cbl_c.Checked && !book.BookCategories.Select(bc => bc.CategoryId).Contains(cbl_c.Id)))
                         book.BookCategories.Add(new BookCategory() { CategoryId = bookCategory.Id, BookId = book.Id });
+
+                    foreach(CheckBox bookAuthor in model.CheckBoxList_Authors.Where(cbl_a => !cbl_a.Checked && book.BookAuthors.Select(ba => ba.AuthorId).Contains(cbl_a.Id)))
+                        book.BookAuthors.Remove(book.BookAuthors.FirstOrDefault(ba => ba.AuthorId.Equals(bookAuthor.Id)));
+
+                    foreach(CheckBox bookCategory in model.CheckBoxList_Categories.Where(cbl_c => !cbl_c.Checked && book.BookCategories.Select(bc => bc.CategoryId).Contains(cbl_c.Id)))
+                        book.BookCategories.Remove(book.BookCategories.FirstOrDefault(bc => bc.CategoryId.Equals(bookCategory.Id)));
 
                     model.SystemMessage = BookRepository.Update(book);
                     model = LoadBookModel(model, book);

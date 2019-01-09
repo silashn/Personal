@@ -145,13 +145,17 @@ namespace Playground.Data.Repositories.Shop
                 using(PlaygroundDbContext db = new PlaygroundDbContext(settings))
                 {
                     Book dbBook = db.Books.Include(b => b.BookAuthors).Include(b => b.BookCategories).FirstOrDefault(b => b.Id.Equals(book.Id));
-                    db.BookAuthor.RemoveRange(dbBook.BookAuthors.Where(ba => !book.BookAuthors.Select(_ba => _ba.AuthorId).Contains(ba.AuthorId)));
-                    db.BookCategory.RemoveRange(dbBook.BookCategories.Where(bc => !book.BookCategories.Select(_bc => _bc.CategoryId).Contains(bc.CategoryId)));
+
+                    db.BookAuthor.RemoveRange(dbBook.BookAuthors.Where(ba => !book.BookAuthors.Select(bba => bba.AuthorId).Contains(ba.AuthorId)));
+                    db.BookCategory.RemoveRange(dbBook.BookCategories.Where(bc => !book.BookCategories.Select(bbc => bbc.CategoryId).Contains(bc.CategoryId)));
 
                     db.BookAuthor.AddRange(book.BookAuthors.Where(ba => !dbBook.BookAuthors.Select(_ba => _ba.AuthorId).Contains(ba.AuthorId)));
                     db.BookCategory.AddRange(book.BookCategories.Where(bc => !dbBook.BookCategories.Select(_bc => _bc.CategoryId).Contains(bc.CategoryId)));
 
-                    db.Books.Update(book);
+                    dbBook.Title = book.Title;
+                    dbBook.Description = book.Description;
+
+                    db.Books.Update(dbBook);
 
                     db.SaveChanges();
                 }
