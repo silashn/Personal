@@ -21,7 +21,7 @@ else if(TempData["SystemMessage"] != null && TempData["SystemMessage"] != "")
     if(Model.Id != null)
     {
         <input type="submit" asp-route-response="Edit" asp-route-id="@Model.Id" value="Save" />
-
+        <a asp-action="Categories" asp-controller="AdminShop">Cancel</a>
     }
     else
     {
