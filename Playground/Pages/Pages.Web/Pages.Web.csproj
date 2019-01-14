@@ -5,11 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Appsettings\appsetting.Development.json" />
+    <Content Remove="Appsettings\appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Appsettings\appsetting.Development.json" />
+    <None Include="Appsettings\appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pages.Configuration\Pages.Configuration.csproj" />
   </ItemGroup>
 
 </Project>
