@@ -19,11 +19,11 @@
                             <li class="parent_menu">
                                 @if(index != null)
                                 {
-                                    <a asp-page="/@dir.Name/Index">@dir.Name</a>
+                                    <a asp-page="/@dir.Name/Index">@dir.Name.Replace("_", " ")</a>
                                 }
                                 else if(subFiles.Any())
                                 {
-                                    <p>@dir.Name</p>
+                                    <p>@dir.Name.Replace("_", " ")</p>
                                 }
 
                                 @if(subFiles != null && subFiles.Any())
@@ -33,7 +33,7 @@
                                             @foreach(FileInfo file in subFiles)
                                             {
                                                 <li>
-                                                    <a asp-page="/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf("."))</a>
+                                                    <a asp-page="/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
                                                 </li>
                                             }
                                         </ul>

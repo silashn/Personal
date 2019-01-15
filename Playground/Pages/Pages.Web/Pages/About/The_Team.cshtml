@@ -1,0 +1,13 @@
+﻿@page
+
+@using Pages.Web.Pages.About;
+@using Pages.Data.Models.Membership;
+
+@model The_TeamModel
+
+@foreach(User user in Model.Users)
+{
+    <div class="user_card">
+        <p>@user.Name</p>
+    </div>
+}

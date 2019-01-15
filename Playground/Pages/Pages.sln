@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pages.Web", "Pages.Web\Pages.Web.csproj", "{325F81FE-860B-462F-A90F-BEEAD9C923A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pages.Settings", "Pages.Settings\Pages.Settings.csproj", "{5ED2CC3C-B47E-4D42-BD70-268CC91E9329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pages.Settings", "Pages.Settings\Pages.Settings.csproj", "{5ED2CC3C-B47E-4D42-BD70-268CC91E9329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pages.Data", "Pages.Data\Pages.Data.csproj", "{58712D5E-64AA-4039-93D9-7716D487EC38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pages.Data", "Pages.Data\Pages.Data.csproj", "{58712D5E-64AA-4039-93D9-7716D487EC38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pages.Tools", "Pages.Tools\Pages.Tools.csproj", "{B8394DB7-F6AC-4EC1-9639-2424E9FE990C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pages.Tools", "Pages.Tools\Pages.Tools.csproj", "{B8394DB7-F6AC-4EC1-9639-2424E9FE990C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pages.Configuration", "Pages.Configuration\Pages.Configuration.csproj", "{80CCEF60-C2F3-4DE1-B2F0-ED1A4305FA8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pages.Configuration", "Pages.Configuration\Pages.Configuration.csproj", "{80CCEF60-C2F3-4DE1-B2F0-ED1A4305FA8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
