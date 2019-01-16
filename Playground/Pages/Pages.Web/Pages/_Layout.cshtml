@@ -1,8 +1,8 @@
 ﻿@using System.IO;
+@using Pages.Tools.Http;
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@ViewBag.Title</title>
-
     <link href="~/assets/css/main.css" rel="stylesheet" />
 </head>
 <body>
@@ -10,7 +10,7 @@
         <wrapper>
             <nav>
                 <ul>
-                    @foreach(DirectoryInfo dir in new DirectoryInfo("Pages/").GetDirectories().Where(d => !d.Name.ToLower().Contains("admin")))
+                    @foreach(DirectoryInfo dir in new DirectoryInfo("Pages/" + (UrlHelper.IsAdmin(Context) ? "Admin/" : "")).GetDirectories().Where(d => (!d.Name.ToLower().Contains("admin"))))
                     {
                         FileInfo index = dir.GetFiles().FirstOrDefault(f => f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
                         IEnumerable<FileInfo> subFiles = dir.GetFiles().Where(f => !f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
@@ -33,7 +33,7 @@
                                             @foreach(FileInfo file in subFiles)
                                             {
                                                 <li>
-                                                    <a asp-page="/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
+                                                    <a asp-page="@(UrlHelper.IsAdmin(Context) ? "/Admin" : "")/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
                                                 </li>
                                             }
                                         </ul>
