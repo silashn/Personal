@@ -1,6 +1,0 @@
-{
-    "DatabaseSettings":
-    {
-        "ConnectionString": "Server=(localdb)\\MSSQLLocalDB; Initial Catalog=Playground;AttachDBFilename=%ROOTPATH%\\App_Data\\Playground.mdf; Integrated Security=true; MultipleActiveResultSets=true;"
-    }
-}

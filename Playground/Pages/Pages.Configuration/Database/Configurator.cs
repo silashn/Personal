@@ -1,14 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pages.Data.Models.Membership;
+using Pages.Data.Scaffolding.Contexts;
 using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Repositories.Membership;
-using Pages.Settings.Database;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Pages.Configuration.Database
 {
@@ -16,11 +13,12 @@ namespace Pages.Configuration.Database
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
-            //Appsettings
-            services.AddSingleton(config.GetSection("DatabaseSettings").Get<DatabaseSettings>());
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
+
+            //Appsettings
+            services.AddDbContext<PagesDbContext>(options => options.UseSqlServer(config.GetValue<string>("DatabaseSettings:ConnectionString").Replace("%ROOTPATH%", Directory.GetParent(AppContext.BaseDirectory + "..\\..\\..\\").FullName), x => x.MigrationsAssembly("Pages.Web")));
         }
     }
 }

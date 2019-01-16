@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pages.Configuration.Database;
+using Pages.Data.Contexts;
+using System;
 
 namespace Pages.Web
 {
@@ -18,8 +16,9 @@ namespace Pages.Web
         public Startup(IHostingEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
-                .AddJsonFile(AppContext.BaseDirectory + "/../../../Appsettings/appsettings.json", false, true)
-                .AddJsonFile(AppContext.BaseDirectory + $"/../../../AppSettings/appsettings.{env.EnvironmentName}.json", true, true)
+                .SetBasePath(AppContext.BaseDirectory + "../../../")
+                .AddJsonFile("Appsettings/appsettings.json", false, true)
+                .AddJsonFile($"AppSettings/appsettings.{env.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
 
             config = builder.Build();
@@ -31,12 +30,13 @@ namespace Pages.Web
         {
             services.AddMvc();
             Configurator.ConfigureServices(services, config);
+            services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if(env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

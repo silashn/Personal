@@ -1,15 +1,11 @@
-﻿using Pages.Data.Models.Membership;
-using System;
-using System.Collections.Generic;
+﻿using Pages.Data.Scaffolding.Models;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pages.Data.Repositories.Interfaces
 {
     public interface IThemeRepository
     {
-        Theme GetTheme(int id);
-        IQueryable<Theme> GetThemes();
+        Themes GetTheme(int id);
+        IQueryable<Themes> GetThemes();
     }
 }

@@ -5,16 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Appsettings\appsetting.Development.json" />
+    <Content Remove="Appsettings\appsettings.Development.json" />
     <Content Remove="Appsettings\appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Appsettings\appsetting.Development.json" />
+    <None Include="Appsettings\appsettings.Development.json" />
     <None Include="Appsettings\appsettings.json" />
   </ItemGroup>
 
@@ -27,6 +28,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />

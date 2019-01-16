@@ -1,37 +1,28 @@
-﻿using Pages.Data.Clients;
-using Pages.Data.Contexts;
-using Pages.Data.Models.Membership;
-using Pages.Data.Repositories.Interfaces;
-using Pages.Settings.Database;
-using System;
+﻿using Pages.Data.Repositories.Interfaces;
+using Pages.Data.Scaffolding.Contexts;
+using Pages.Data.Scaffolding.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pages.Data.Repositories.Membership
 {
-    public class UserRepository : DatabaseClient, IUserRepository
+    public class UserRepository : IUserRepository
     {
-        public UserRepository(DatabaseSettings settings) : base(settings)
-        {
+        private readonly PagesDbContext db;
 
+        public UserRepository(PagesDbContext db)
+        {
+            this.db = db;
         }
 
-        public User GetUser(int id)
+        public Users GetUser(int id)
         {
-            using(PagesDbContext db = new PagesDbContext(settings))
-            {
-                return db.Users.FirstOrDefault(u => u.Id.Equals(id));
-            }
+            return db.Users.FirstOrDefault(u => u.Id.Equals(id));
         }
 
-        List<User> IUserRepository.GetUsers()
+        List<Users> IUserRepository.GetUsers()
         {
-            using(PagesDbContext db = new PagesDbContext(settings))
-            {
-                return db.Users.ToList();
-            }
+            return db.Users.ToList();
         }
     }
 }
