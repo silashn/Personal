@@ -10,36 +10,45 @@
         <wrapper>
             <nav>
                 <ul>
-                    @foreach(DirectoryInfo dir in new DirectoryInfo("Pages/" + (UrlHelper.IsAdmin(Context) ? "Admin/" : "")).GetDirectories().Where(d => (!d.Name.ToLower().Contains("admin"))))
-                    {
-                        FileInfo index = dir.GetFiles().FirstOrDefault(f => f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
-                        IEnumerable<FileInfo> subFiles = dir.GetFiles().Where(f => !f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
-                        if(subFiles.Any() || index != null)
-                        {
-                            <li class="parent_menu">
-                                @if(index != null)
-                                {
-                                    <a asp-page="/@dir.Name/Index">@dir.Name.Replace("_", " ")</a>
-                                }
-                                else if(subFiles.Any())
-                                {
-                                    <p>@dir.Name.Replace("_", " ")</p>
-                                }
+                    @{
+                        List<DirectoryInfo> dirs = new DirectoryInfo("Pages/" + (UrlHelper.IsAdmin(Context) ? "Admin/" : "")).GetDirectories().Where(d => !d.Name.ToLower().Contains("admin")).ToList();
 
-                                @if(subFiles != null && subFiles.Any())
-                                {
-                                    <div class="sub_menu">
-                                        <ul class="sub_menu_container">
-                                            @foreach(FileInfo file in subFiles)
-                                            {
-                                                <li>
-                                                    <a asp-page="@(UrlHelper.IsAdmin(Context) ? "/Admin" : "")/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-                            </li>
+                        if(UrlHelper.IsAdmin(Context))
+                        {
+                            dirs.Insert(0, new DirectoryInfo("Pages/").GetDirectories().FirstOrDefault(d => d.Name.ToLower().Contains("home") || d.Name.ToLower().Contains("hjem")));
+                        }
+
+                        foreach(DirectoryInfo dir in dirs)
+                        {
+                            FileInfo index = dir.GetFiles().FirstOrDefault(f => f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
+                            IEnumerable<FileInfo> subFiles = dir.GetFiles().Where(f => !f.Name.ToLower().Contains("index") && f.Extension.Equals(".cshtml"));
+                            if(subFiles.Any() || index != null)
+                            {
+                                <li class="parent_menu">
+                                    @if(index != null)
+                                    {
+                                        <a asp-page="/@dir.Name/Index">@dir.Name.Replace("_", " ")</a>
+                                    }
+                                    else if(subFiles.Any())
+                                    {
+                                        <p>@dir.Name.Replace("_", " ")</p>
+                                    }
+
+                                    @if(subFiles != null && subFiles.Any())
+                                    {
+                                        <div class="sub_menu">
+                                            <ul class="sub_menu_container">
+                                                @foreach(FileInfo file in subFiles)
+                                                {
+                                                    <li>
+                                                        <a asp-page="@(UrlHelper.IsAdmin(Context) ? "/Admin" : "")/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
+                                </li>
+                            }
                         }
                     }
                 </ul>
