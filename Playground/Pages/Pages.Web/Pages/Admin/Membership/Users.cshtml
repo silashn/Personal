@@ -1,8 +1,43 @@
-﻿@page
-@model Pages.Web.Pages.Admin.Membership.UsersModel
+﻿@page "{id?}"
 
+@using Pages.Web.Pages.Admin.Membership;
+
+@model UsersModel
+
+@{ ViewBag.Error = Model.Error;}
+
+<h2>
+    @if(Model.User == null || Model.User.Id == 0)
+    {
+        <text>Create New User</text>
+    }
+    else
+    {
+        <text>Edit - @Model.User.Name</text>;
+    }
+</h2>
 <form method="post">
+    <input asp-for="User.Id" type="hidden" />
+
     <div>
-        <label asp-for="user.Name"></label>
+        <label asp-for="User.Name"></label>
+        <input asp-for="User.Name" />
+        <span asp-validation-for="User.Name"></span>
+    </div>
+
+    <div>
+        <label asp-for="User.Email"></label>
+        <input asp-for="User.Email" />
+        <span asp-validation-for="User.Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="User.Password"></label>
+        <input asp-for="User.Password" />
+        <span asp-validation-for="User.Password"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="@(Model.User == null || Model.User.Id == 0 ? "Create" : "Update")"/>
     </div>
 </form>

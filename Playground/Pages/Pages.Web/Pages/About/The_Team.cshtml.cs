@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Scaffolding.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pages.Web.Pages.About
 {
     public class The_TeamModel : PageModel
     {
-        public List<Users> Users { get; set; }
+        public IQueryable<Users> Users { get; set; }
         private IUserRepository userRepository;
 
         public The_TeamModel(IUserRepository userRepository)
@@ -16,10 +17,9 @@ namespace Pages.Web.Pages.About
             this.userRepository = userRepository;
         }
 
-        public IActionResult OnGet()
+        public void OnGet(int? id)
         {
             Users = userRepository.GetUsers();
-            return Page();
         }
     }
 }
