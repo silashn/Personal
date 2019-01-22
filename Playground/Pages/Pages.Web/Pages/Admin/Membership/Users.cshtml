@@ -17,8 +17,7 @@
     }
 </h2>
 <form method="post">
-    <input asp-for="User.Id" type="hidden" />
-
+    <div asp-validation-summary="All"></div>
     <div>
         <label asp-for="User.Name"></label>
         <input asp-for="User.Name" />

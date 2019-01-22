@@ -1,4 +1,5 @@
-﻿using Pages.Data.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Scaffolding.Contexts;
 using Pages.Data.Scaffolding.Models;
 using System;
@@ -26,18 +27,34 @@ namespace Pages.Data.Repositories.Membership
         {
             return db.Users;
         }
-        public Exception Create(Users user)
+
+        public string Create(Users user)
         {
             try
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return null;
+                return "<p class='success'>Successfully created user '" + user.Name + "'.</p>";
             }
             catch(Exception e)
             {
-                return e;
+                return "<p class='error'>Could create user '" + user.Name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
             }
+        }
+
+        public string Update(Users user)
+        {
+            try
+            {
+                db.Attach(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return "<p class='success'>Successfully deleted author '" + name + "'.</p>";
+            }
+            catch(Exception e)
+            {
+                return "<p class='error'>Could not delete author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
+            }
+        }
         }
     }
 }

@@ -28,11 +28,13 @@ namespace Pages.Web.Pages.Admin.Membership
             if(id.HasValue)
             {
                 User = userRepository.GetUser(id.Value);
+
                 if(User == null)
                 {
                     return Redirect("/Admin/Membership/Users");
                 }
             }
+
             return Page();
         }
 
@@ -44,10 +46,13 @@ namespace Pages.Web.Pages.Admin.Membership
                 {
                     Error = userRepository.Create(User);
                 }
+                else
+                {
+                    Error = userRepository.Update(User);
+                }
             }
 
-
-            return Page();
+            return Redirect("/Admin/Membership/Users");
         }
     }
 }

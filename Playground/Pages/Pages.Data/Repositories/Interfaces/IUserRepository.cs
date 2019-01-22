@@ -8,6 +8,7 @@ namespace Pages.Data.Repositories.Interfaces
     {
         Users GetUser(int id);
         IQueryable<Users> GetUsers();
-        Exception Create(Users user);
+        string Create(Users user);
+        string Update(Users user);
     }
 }
