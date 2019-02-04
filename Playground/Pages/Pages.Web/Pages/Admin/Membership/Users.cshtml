@@ -1,10 +1,19 @@
-﻿@page "{id?}"
+﻿@page "{action?}/{id?}"
 
 @using Pages.Web.Pages.Admin.Membership;
+@using Pages.Data.Scaffolding.Models
 
 @model UsersModel
 
-@{ ViewBag.Error = Model.Error;}
+@if(Model.SystemMessage != null && Model.SystemMessage != "")
+{
+    <div class="SystemMessages">@Html.Raw(Model.SystemMessage)</div>
+}
+else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] != "")
+{
+    <div class="SystemMessages">@Html.Raw(TempData["SystemMessage"])</div>
+    TempData.Remove("SystemMessage");
+}
 
 <h2>
     @if(Model.User == null || Model.User.Id == 0)
@@ -18,6 +27,7 @@
 </h2>
 <form method="post">
     <div asp-validation-summary="All"></div>
+    <input asp-for="User.Id" />
     <div>
         <label asp-for="User.Name"></label>
         <input asp-for="User.Name" />
@@ -37,6 +47,58 @@
     </div>
 
     <div>
-        <input type="submit" value="@(Model.User == null || Model.User.Id == 0 ? "Create" : "Update")"/>
+        <input type="submit" value="@(Model.User == null || Model.User.Id == 0 ? "Create" : "Update")" />
     </div>
 </form>
+@if(Model.Users.Count() > 0)
+{
+    <table class="table admin_table" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Themes</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach(Users user in Model.Users)
+        {
+            <tr>
+                <td>
+                    @user.Id
+                </td>
+                <td>
+                    @user.Name
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @user.Password
+                </td>
+                <td>
+                    @foreach(Themes theme in user.Themes)
+                    {
+                        <p>@theme.Name</p>
+                    }
+                </td>
+                <td>
+                    <a asp-page="/Admin/Membership/Users" asp-route-action="Edit" asp-route-id="@user.Id">
+                        &#9998;
+                    </a>
+                </td>
+                <td>
+                    <a onclick="return confirm('Really delete user @(user.Name)?')" asp-page="/Admin/Membership/Users" asp-route-action="Delete" asp-route-id="@user.Id">
+                        &#10006;
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@foreach(KeyValuePair<string, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry> state in ModelState.ToList())
+{
+    <p>@state.Key - @state.Value</p>
+}

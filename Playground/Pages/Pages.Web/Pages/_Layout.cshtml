@@ -41,7 +41,6 @@
                                                 @foreach(FileInfo file in subFiles)
                                                 {
                                                     <li>
-                                                        @dir.Name
                                                         <a asp-page="@(UrlHelper.IsAdmin(Context) && dir.Name != "Home" ? "/Admin" : "")/@dir.Name/@file.Name.Substring(0, file.Name.IndexOf('.'))">@file.Name.Substring(0, file.Name.IndexOf(".")).Replace("_", " ")</a>
                                                     </li>
                                                 }
@@ -59,5 +58,19 @@
     <wrapper class="content">
         @RenderBody()
     </wrapper>
+
+    <script type="text/javascript">
+        var
+            InnerException = document.querySelector(".error.inner_exception"),
+            InnerExceptionMessage = document.querySelector(".error.inner_exception_message");
+
+        if(InnerException != null)
+        {
+            InnerException.addEventListener("click", function()
+            {
+                InnerExceptionMessage.style.display = "block";
+            });
+        }
+    </script>
 </body>
 </html>

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Scaffolding.Models;
-using System;
 using System.Linq;
 
 namespace Pages.Web.Pages.Admin.Membership
@@ -13,7 +12,7 @@ namespace Pages.Web.Pages.Admin.Membership
         public new Users User { get; set; }
         public IQueryable<Users> Users { get; set; }
 
-        public string Error { get; set; }
+        public string SystemMessage { get; set; }
 
         private IUserRepository userRepository;
 
@@ -38,21 +37,34 @@ namespace Pages.Web.Pages.Admin.Membership
             return Page();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(int? id)
         {
-            if(ModelState.IsValid)
+            if((User.Password == "" || User.Password == null) && id.HasValue)
             {
-                if(User.Id == 0)
+                User.Password = userRepository.GetUser(id.Value).Password;
+            }
+
+            if(ModelState.IsValid || (!ModelState.IsValid && ModelState.GetValidationState("User.Password") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid && ModelState.ErrorCount == 1))
+            {
+                if(!id.HasValue)
                 {
-                    Error = userRepository.Create(User);
+                    SystemMessage = userRepository.Create(User);
                 }
                 else
                 {
-                    Error = userRepository.Update(User);
+                    User.Id = id.Value;
+
+                    SystemMessage = userRepository.Update(User);
                 }
+
+                TempData["SystemMessage"] = SystemMessage;
+                return Redirect("/Admin/Membership/Users");
             }
 
-            return Redirect("/Admin/Membership/Users");
+            Users = userRepository.GetUsers();
+
+
+            return Page();
         }
     }
 }

@@ -47,13 +47,20 @@ namespace Pages.Data.Repositories.Membership
 
             try
             {
-                db.Attach(user).State = EntityState.Modified;
+                Users UpdateUser = GetUser(user.Id);
+
+                UpdateUser.Email = user.Email;
+                UpdateUser.Name = user.Name;
+                UpdateUser.Password = user.Password;
+                UpdateUser.Themes = user.Themes;
+
+                db.Attach(UpdateUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return "<p class='success'>Successfully updated author '" + name + "'.</p>";
             }
             catch (Exception e)
             {
-                return "<p class='error'>Could not delete author '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
+                return "<p class='error'>Could not update user '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br /><p class='error inner_exception_message'>" + e.InnerException + "</p></p>" : "");
             }
         }
     }

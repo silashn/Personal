@@ -11,7 +11,7 @@ namespace Pages.Data.Scaffolding.Models
         {
             Themes = new HashSet<Themes>();
         }
-
+        [Editable(false)]
         public int Id { get; set; }
 
         [Required]
