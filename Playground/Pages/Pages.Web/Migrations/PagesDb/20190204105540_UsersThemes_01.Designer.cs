@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pages.Data.Scaffolding.Contexts;
 
 namespace Pages.Web.Migrations.PagesDb
 {
     [DbContext(typeof(PagesDbContext))]
-    partial class PagesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190204105540_UsersThemes_01")]
+    partial class UsersThemes_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

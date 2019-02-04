@@ -13,7 +13,7 @@ namespace Pages.Web.Pages.Admin.Membership
         public new Users User { get; set; }
         public IQueryable<Users> Users { get; set; }
 
-        public Exception Error { get; set; }
+        public string Error { get; set; }
 
         private IUserRepository userRepository;
 
