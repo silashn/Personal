@@ -37,6 +37,7 @@ label.spacer.spacer_medium{display:block; margin:20px 0 10px 0;}
     .table.admin_table tr:nth-child(2n+1) { background-color: #AAA; }
     .table.admin_table th, .table.admin_table td {padding:5px;}
 
+    .table.admin_table.tiny{max-width:600px;}
 wrapper { margin: 0 auto; display: block; width: 90%; max-width: 1400px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 wrapper.content

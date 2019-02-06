@@ -7,5 +7,8 @@ namespace Pages.Data.Repositories.Interfaces
     {
         Themes GetTheme(int id);
         IQueryable<Themes> GetThemes();
+        string Create(Themes theme);
+        string Update(Themes theme);
+        string Delete(Themes theme);
     }
 }

@@ -10,20 +10,25 @@ namespace Pages.Web.Pages.Admin.Membership
     {
         [BindProperty]
         public new Users User { get; set; }
+        [BindProperty]
+        public Themes Theme { get; set; }
         public IQueryable<Users> Users { get; set; }
 
         public string SystemMessage { get; set; }
 
         private IUserRepository userRepository;
+        private IThemeRepository themeRepository;
 
-        public UsersModel(IUserRepository userRepository)
+        public UsersModel(IUserRepository userRepository, IThemeRepository themeRepository)
         {
             this.userRepository = userRepository;
+            this.themeRepository = themeRepository;
         }
 
-        public IActionResult OnGet(int? id)
+        public IActionResult OnGet(string action, int? id, string themeName)
         {
             Users = userRepository.GetUsers();
+
             if(id.HasValue)
             {
                 User = userRepository.GetUser(id.Value);
@@ -32,19 +37,46 @@ namespace Pages.Web.Pages.Admin.Membership
                 {
                     return Redirect("/Admin/Membership/Users");
                 }
+
+                if(action == "Delete")
+                {
+                    TempData["SystemMessage"] = userRepository.Delete(User);
+                    return Redirect("/Admin/Membership/Users");
+                }
+
+                if(themeName != null && themeName != "")
+                {
+                    Theme = User.Themes.FirstOrDefault(t => t.Name.Equals(themeName));
+                    if(Theme == null)
+                    {
+                        return Redirect("/Admin/Membership/Users/Edit/" + id);
+                    }
+
+                    if(action == "ThemeDelete")
+                    {
+                        TempData["SystemMessage"] = themeRepository.Delete(Theme);
+                        return Redirect("/Admin/Membership/Users/Edit/" + id);
+                    }
+                }
             }
 
             return Page();
         }
 
-        public IActionResult OnPost(int? id)
+        public IActionResult OnPostUser(string action, int? id)
         {
+            foreach(string key in ModelState.Keys.Where(k => k.Contains("Theme")))
+            {
+                ModelState.Remove(key);
+            }
+
             if((User.Password == "" || User.Password == null) && id.HasValue)
             {
                 User.Password = userRepository.GetUser(id.Value).Password;
+                ModelState.Remove("User.Password");
             }
 
-            if(ModelState.IsValid || (!ModelState.IsValid && ModelState.GetValidationState("User.Password") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid && ModelState.ErrorCount == 1))
+            if(ModelState.IsValid)
             {
                 if(!id.HasValue)
                 {
@@ -63,7 +95,41 @@ namespace Pages.Web.Pages.Admin.Membership
 
             Users = userRepository.GetUsers();
 
+            return Page();
+        }
 
+        public IActionResult OnPostTheme(string action, int? id, string themeName)
+        {
+            User = userRepository.GetUser(id.Value);
+            foreach(string key in ModelState.Keys.Where(k => k.Contains("User")))
+            {
+                ModelState.Remove(key);
+            }
+
+            if(ModelState.IsValid)
+            {
+                if(User != null)
+                {
+                    if(themeName == null || themeName == "")
+                    {
+                        SystemMessage = themeRepository.Create(Theme);
+                    }
+                    else
+                    {
+                        Themes UpdateTheme = User.Themes.FirstOrDefault(t => t.Name.Equals(themeName));
+                        if(UpdateTheme != null)
+                        {
+                            Theme.Id = UpdateTheme.Id;
+                            SystemMessage = themeRepository.Update(Theme);
+                        }
+                    }
+                }
+
+                TempData["SystemMessage"] = SystemMessage;
+                return Redirect("/Admin/Membership/Users/Edit/" + User.Id);
+            }
+
+            Users = userRepository.GetUsers();
             return Page();
         }
     }

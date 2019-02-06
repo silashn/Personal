@@ -1,4 +1,4 @@
-﻿@page "{action?}/{id?}"
+﻿@page "{action?}/{id?}/{themeName?}"
 
 @using Pages.Web.Pages.Admin.Membership;
 @using Pages.Data.Scaffolding.Models
@@ -26,8 +26,6 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
     }
 </h2>
 <form method="post">
-    <div asp-validation-summary="All"></div>
-    <input asp-for="User.Id" />
     <div>
         <label asp-for="User.Name"></label>
         <input asp-for="User.Name" />
@@ -45,9 +43,44 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
         <input asp-for="User.Password" />
         <span asp-validation-for="User.Password"></span>
     </div>
+    @if(Model.User != null)
+    {
+        <div>
+            <div>
+                <label asp-for="Theme.Name"></label>
+                <input asp-for="Theme.Name" />
+                <span asp-validation-for="Theme.Name"></span>
+
+                <label asp-for="Theme.Color"></label>
+                <input asp-for="Theme.Color" />
+                <span asp-validation-for="Theme.Color"></span>
+                <input type="hidden" asp-for="Theme.UserId" value="@Model.User.Id" />
+                <input type="submit" asp-page-handler="Theme" value="@(Model.Theme == null || Model.Theme.Id == 0 ? "Create" : "Update")" />
+            </div>
+            <table class="table admin_table tiny" cellpadding="0" cellspacing="0">
+                @foreach(Themes theme in Model.User.Themes)
+                {
+                    <tr>
+                        <td>@theme.Name</td>
+                        <td style="background-color:#@theme.Color">@theme.Color</td>
+                        <td>
+                            <a asp-page="/Admin/Membership/Users" asp-route-action="Edit" asp-route-id="@Model.User.Id" asp-route-themeName="@theme.Name">
+                                &#9998;
+                            </a>
+                        </td>
+                        <td>
+                            <a onclick="return confirm('Really delete theme @(theme.Name)?')" asp-page="/Admin/Membership/Users" asp-route-action="ThemeDelete" asp-route-id="@Model.User.Id" asp-route-themeName="@theme.Name">
+                                &#10006;
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
     <div>
-        <input type="submit" value="@(Model.User == null || Model.User.Id == 0 ? "Create" : "Update")" />
+        <input type="submit" asp-page-handler="User" asp-route-action="Edit" value="@(Model.User == null || Model.User.Id == 0 ? "Create" : "Update")" />
     </div>
 </form>
 @if(Model.Users.Count() > 0)
@@ -78,7 +111,7 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
                     @user.Password
                 </td>
                 <td>
-                    @foreach(Themes theme in user.Themes)
+                    @foreach(Themes theme in user.Themes.ToList())
                     {
                         <p>@theme.Name</p>
                     }

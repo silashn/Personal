@@ -10,5 +10,6 @@ namespace Pages.Data.Repositories.Interfaces
         IQueryable<Users> GetUsers();
         string Create(Users user);
         string Update(Users user);
+        string Delete(Users user);
     }
 }
