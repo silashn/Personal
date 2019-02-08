@@ -16,14 +16,14 @@ namespace Pages.Data.Scaffolding.Contexts
         {
         }
 
-        public virtual DbSet<Themes> Themes { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Theme> Themes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-            modelBuilder.Entity<Themes>(entity =>
+            modelBuilder.Entity<Theme>(entity =>
             {
                 entity.HasIndex(e => e.UserId);
             });

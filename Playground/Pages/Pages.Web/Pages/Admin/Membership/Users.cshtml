@@ -58,7 +58,7 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
                 <input type="submit" asp-page-handler="Theme" value="@(Model.Theme == null || Model.Theme.Id == 0 ? "Create" : "Update")" />
             </div>
             <table class="table admin_table tiny" cellpadding="0" cellspacing="0">
-                @foreach(Themes theme in Model.User.Themes)
+                @foreach(Theme theme in Model.User.Themes)
                 {
                     <tr>
                         <td>@theme.Name</td>
@@ -95,7 +95,7 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
             <th></th>
             <th></th>
         </tr>
-        @foreach(Users user in Model.Users)
+        @foreach(User user in Model.Users)
         {
             <tr>
                 <td>
@@ -111,7 +111,7 @@ else if(TempData["SystemMessage"] != null && (string)TempData["SystemMessage"] !
                     @user.Password
                 </td>
                 <td>
-                    @foreach(Themes theme in user.Themes.ToList())
+                    @foreach(Theme theme in user.Themes.ToList())
                     {
                         <p>@theme.Name</p>
                     }

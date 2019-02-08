@@ -9,7 +9,7 @@ namespace Pages.Web.Pages.About
 {
     public class The_TeamModel : PageModel
     {
-        public IEnumerable<Users> Users { get; set; }
+        public IEnumerable<User> Users { get; set; }
         private IUserRepository userRepository;
 
         public The_TeamModel(IUserRepository userRepository)

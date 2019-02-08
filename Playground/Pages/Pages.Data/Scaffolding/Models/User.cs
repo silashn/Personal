@@ -5,18 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pages.Data.Scaffolding.Models
 {
-    public partial class Users
+    public partial class User
     {
         private string _name;
 
-        public Users()
+        public User()
         {
-            Themes = new HashSet<Themes>();
+            Themes = new HashSet<Theme>();
         }
+
         [Editable(false)]
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(64)]
         public string Name
         {
             get
@@ -28,6 +30,10 @@ namespace Pages.Data.Scaffolding.Models
                 if(value.Length > 64)
                 {
                     throw new InvalidOperationException("Name cannot be over 64 characters.");
+                }
+                else if(value.Length == 0)
+                {
+                    throw new InvalidOperationException("Name must be entered");
                 }
 
                 _name = value;
@@ -42,6 +48,6 @@ namespace Pages.Data.Scaffolding.Models
         public string Password { get; set; }
 
         [InverseProperty("User")]
-        public virtual ICollection<Themes> Themes { get; set; }
+        public virtual ICollection<Theme> Themes { get; set; }
     }
 }

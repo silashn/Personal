@@ -16,17 +16,17 @@ namespace Pages.Data.Repositories.Membership
             this.db = db;
         }
 
-        public Themes GetTheme(int id)
+        public Theme GetTheme(int id)
         {
             return db.Themes.FirstOrDefault(t => t.Id.Equals(id));
         }
 
-        public IQueryable<Themes> GetThemes()
+        public IQueryable<Theme> GetThemes()
         {
             return db.Themes;
         }
 
-        public string Create(Themes theme)
+        public string Create(Theme theme)
         {
             try
             {
@@ -40,13 +40,13 @@ namespace Pages.Data.Repositories.Membership
             }
         }
 
-        public string Update(Themes theme)
+        public string Update(Theme theme)
         {
             string name = theme.Name;
 
             try
             {
-                Themes UpdateTheme = GetTheme(theme.Id);
+                Theme UpdateTheme = GetTheme(theme.Id);
                 
                 UpdateTheme.Name = theme.Name;
                 UpdateTheme.Color = theme.Color;
@@ -62,7 +62,7 @@ namespace Pages.Data.Repositories.Membership
             }
         }
 
-        public string Delete(Themes theme)
+        public string Delete(Theme theme)
         {
             string name = theme.Name;
 

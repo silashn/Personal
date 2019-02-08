@@ -5,10 +5,10 @@ namespace Pages.Data.Repositories.Interfaces
 {
     public interface IThemeRepository
     {
-        Themes GetTheme(int id);
-        IQueryable<Themes> GetThemes();
-        string Create(Themes theme);
-        string Update(Themes theme);
-        string Delete(Themes theme);
+        Theme GetTheme(int id);
+        IQueryable<Theme> GetThemes();
+        string Create(Theme theme);
+        string Update(Theme theme);
+        string Delete(Theme theme);
     }
 }

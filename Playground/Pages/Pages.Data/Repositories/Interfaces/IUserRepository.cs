@@ -7,10 +7,10 @@ namespace Pages.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Users GetUser(int id);
-        IEnumerable<Users> GetUsers();
-        string Create(Users user);
-        string Update(Users user);
-        string Delete(Users user);
+        User GetUser(int id);
+        IEnumerable<User> GetUsers();
+        string Create(User user);
+        string Update(User user);
+        string Delete(User user);
     }
 }

@@ -10,10 +10,10 @@ namespace Pages.Web.Pages.Admin.Membership
     public class UsersModel : PageModel
     {
         [BindProperty]
-        public new Users User { get; set; }
+        public new User User { get; set; }
         [BindProperty]
-        public Themes Theme { get; set; }
-        public IEnumerable<Users> Users { get; set; }
+        public Theme Theme { get; set; }
+        public IEnumerable<User> Users { get; set; }
 
         public string SystemMessage { get; set; }
 
@@ -117,7 +117,7 @@ namespace Pages.Web.Pages.Admin.Membership
                     }
                     else
                     {
-                        Themes UpdateTheme = User.Themes.FirstOrDefault(t => t.Name.Equals(themeName));
+                        Theme UpdateTheme = User.Themes.FirstOrDefault(t => t.Name.Equals(themeName));
                         if(UpdateTheme != null)
                         {
                             Theme.Id = UpdateTheme.Id;

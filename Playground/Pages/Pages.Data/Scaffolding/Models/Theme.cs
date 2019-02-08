@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pages.Data.Scaffolding.Models
 {
-    public partial class Themes
+    public partial class Theme
     {
         public int Id { get; set; }
         [Required]
@@ -14,6 +14,6 @@ namespace Pages.Data.Scaffolding.Models
 
         [ForeignKey("UserId")]
         [InverseProperty("Themes")]
-        public virtual Users User { get; set; }
+        public virtual User User { get; set; }
     }
 }

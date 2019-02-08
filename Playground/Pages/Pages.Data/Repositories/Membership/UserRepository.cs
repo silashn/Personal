@@ -17,17 +17,17 @@ namespace Pages.Data.Repositories.Membership
             this.db = db;
         }
 
-        public Users GetUser(int id)
+        public User GetUser(int id)
         {
             return db.Users.AsNoTracking().Include(u => u.Themes).SingleOrDefault(u => u.Id.Equals(id));
         }
 
-        IEnumerable<Users> IUserRepository.GetUsers()
+        IEnumerable<User> IUserRepository.GetUsers()
         {
             return db.Users.AsNoTracking().Include(u => u.Themes);
         }
 
-        public string Create(Users user)
+        public string Create(User user)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Pages.Data.Repositories.Membership
             }
         }
 
-        public string Update(Users user)
+        public string Update(User user)
         {
             string name = user.Name;
 
@@ -63,7 +63,7 @@ namespace Pages.Data.Repositories.Membership
             }
         }
 
-        public string Delete(Users user)
+        public string Delete(User user)
         {
             string name = user.Name;
 
