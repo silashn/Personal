@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Scaffolding.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Pages.Web.Pages.Admin.Membership
@@ -12,7 +13,7 @@ namespace Pages.Web.Pages.Admin.Membership
         public new Users User { get; set; }
         [BindProperty]
         public Themes Theme { get; set; }
-        public IQueryable<Users> Users { get; set; }
+        public IEnumerable<Users> Users { get; set; }
 
         public string SystemMessage { get; set; }
 

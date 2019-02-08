@@ -7,6 +7,8 @@ namespace Pages.Data.Scaffolding.Models
 {
     public partial class Users
     {
+        private string _name;
+
         public Users()
         {
             Themes = new HashSet<Themes>();
@@ -15,7 +17,22 @@ namespace Pages.Data.Scaffolding.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if(value.Length > 64)
+                {
+                    throw new InvalidOperationException("Name cannot be over 64 characters.");
+                }
+
+                _name = value;
+            }
+        }
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]

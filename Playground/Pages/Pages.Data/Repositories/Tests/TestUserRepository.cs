@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pages.Data.Repositories.Membership
+namespace Pages.Data.Repositories.Tests
 {
-    public class UserRepository : IUserRepository
+    public class TestUserRepository : IUserRepository
     {
         private readonly PagesDbContext db;
 
-        public UserRepository(PagesDbContext db)
+        public TestUserRepository(PagesDbContext db)
         {
             this.db = db;
         }
@@ -35,7 +35,7 @@ namespace Pages.Data.Repositories.Membership
                 db.SaveChanges();
                 return "<p class='success'>Successfully created user '" + user.Name + "'.</p>";
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return "<p class='error'>Could not create user '" + user.Name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br />" + e.InnerException + "</p>" : "");
             }
@@ -47,17 +47,17 @@ namespace Pages.Data.Repositories.Membership
 
             try
             {
-                //Users UpdateUser = GetUser(user.Id);
+                Users UpdateUser = GetUser(user.Id);
 
-                //UpdateUser.Email = user.Email;
-                //UpdateUser.Name = user.Name;
-                //UpdateUser.Password = user.Password;
+                UpdateUser.Email = user.Email;
+                UpdateUser.Name = user.Name;
+                UpdateUser.Password = user.Password;
 
-                db.Attach(user).State = EntityState.Modified;
+                db.Attach(UpdateUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return "<p class='success'>Successfully updated user '" + name + "'.</p>";
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return "<p class='error'>Could not update user '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br /><p class='error inner_exception_message'>" + e.InnerException + "</p></p>" : "");
             }

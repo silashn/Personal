@@ -6,6 +6,7 @@ using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Repositories.Membership;
 using System;
 using System.IO;
+using Pages.Data.Repositories.Tests;
 
 namespace Pages.Configuration.Database
 {
@@ -16,6 +17,9 @@ namespace Pages.Configuration.Database
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
+
+            //Tests
+            services.AddScoped<IUserRepository, TestUserRepository>();
 
             //Appsettings
             services.AddDbContext<PagesDbContext>(options => options.UseSqlServer(config.GetValue<string>("DatabaseSettings:ConnectionString").Replace("%ROOTPATH%", Directory.GetParent(AppContext.BaseDirectory + "..\\..\\..\\").FullName), x => x.MigrationsAssembly("Pages.Web")));
