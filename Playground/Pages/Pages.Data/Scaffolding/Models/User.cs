@@ -29,7 +29,7 @@ namespace Pages.Data.Scaffolding.Models
             {
                 if(value.Length > 64)
                 {
-                    throw new InvalidOperationException("Name cannot be over 64 characters.");
+                    throw new InvalidOperationException("Name cannot exceed 64 characters.");
                 }
                 else if(value.Length == 0)
                 {
@@ -39,6 +39,7 @@ namespace Pages.Data.Scaffolding.Models
                 _name = value;
             }
         }
+
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
