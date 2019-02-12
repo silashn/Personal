@@ -205,7 +205,7 @@ namespace Pages.Tests.Integration
             ThemeRepository.DeleteRange(themes);
             Assert.AreEqual(0, ThemeRepository.GetThemes().Where(t => t.UserId.Equals(user.Id)).Count());
             if(HasThemes)
-            Assert.AreNotEqual(0, ThemeRepository.GetThemes().Count());
+                Assert.AreNotEqual(0, ThemeRepository.GetThemes().Count());
         }
 
 
