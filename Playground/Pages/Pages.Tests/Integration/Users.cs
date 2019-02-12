@@ -10,6 +10,9 @@ using System.Linq;
 namespace Pages.Tests.Integration
 {
     [TestClass]
+    [TestCategory("Integration")]
+    [TestCategory("Integration.Users")]
+    [TestCategory("Users")]
     public class Users
     {
         private IUserRepository UserRepository;
@@ -119,7 +122,7 @@ namespace Pages.Tests.Integration
             UserRepository.Update(user);
 
             Assert.AreEqual(NewName, UserRepository.GetUser(user.Id).Name);
-            Assert.AreEqual(NewThemeName, UserRepository.GetUser(user.Id).Themes.FirstOrDefault().Name);
+            Assert.AreEqual(1, UserRepository.GetUser(user.Id).Themes.Where(t => t.Name.Equals(NewThemeName)).Count());
             Assert.AreEqual(themes.Count, UserRepository.GetUser(user.Id).Themes.Count);
         }
 

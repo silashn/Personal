@@ -11,6 +11,9 @@ using System.Linq;
 namespace Pages.Tests.Unit
 {
     [TestClass]
+    [TestCategory("Unit")]
+    [TestCategory("Unit.Users")]
+    [TestCategory("Users")]
     public class Users
     {
         [TestMethod]
