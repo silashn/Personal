@@ -47,12 +47,6 @@ namespace Pages.Data.Repositories.Membership
 
             try
             {
-                //Users UpdateUser = GetUser(user.Id);
-
-                //UpdateUser.Email = user.Email;
-                //UpdateUser.Name = user.Name;
-                //UpdateUser.Password = user.Password;
-
                 db.Attach(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return "<p class='success'>Successfully updated user '" + name + "'.</p>";

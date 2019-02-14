@@ -2,6 +2,7 @@
 using Pages.Data.Repositories.Interfaces;
 using Pages.Data.Scaffolding.Contexts;
 using Pages.Data.Scaffolding.Models;
+using Pages.Data.Extensions.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace Pages.Data.Repositories.Membership
         {
             try
             {
+                if(theme.ThemeNameAlreadyExists(this))
+                {
+                    throw new InvalidOperationException("User already has a theme by that name.");
+                }
+
                 db.Themes.Add(theme);
                 db.SaveChanges();
                 return "<p class='success'>Successfully created theme '" + theme.Name + "'.</p>";
@@ -47,13 +53,12 @@ namespace Pages.Data.Repositories.Membership
 
             try
             {
-                Theme UpdateTheme = GetTheme(theme.Id);
+                if(theme.ThemeNameAlreadyExists(this))
+                {
+                    throw new InvalidOperationException("User already has a theme by that name.");
+                }
 
-                UpdateTheme.Name = theme.Name;
-                UpdateTheme.Color = theme.Color;
-                UpdateTheme.UserId = theme.UserId;
-
-                db.Attach(UpdateTheme).State = EntityState.Modified;
+                db.Attach(theme).State = EntityState.Modified;
                 db.SaveChanges();
                 return "<p class='success'>Successfully updated theme '" + name + "'.</p>";
             }
@@ -84,15 +89,19 @@ namespace Pages.Data.Repositories.Membership
         {
             string message = "";
             string errors = "";
+            db.ChangeTracker.AutoDetectChangesEnabled = false;
             foreach(Theme theme in themes)
             {
                 string name = theme.Name;
 
                 try
                 {
-                    db.Themes.Add(theme);
+                    if(theme.ThemeNameAlreadyExists(this))
+                    {
+                        throw new InvalidOperationException("User already has a theme by that name.");
+                    }
 
-                    db.SaveChanges();
+                    db.Themes.Add(theme);
                     message += "<p class='success'>Successfully created theme '" + name + "'.</p>";
                 }
                 catch(Exception e)
@@ -108,8 +117,15 @@ namespace Pages.Data.Repositories.Membership
                 }
             }
 
-            message += errors;
-            return message;
+            if(errors == string.Empty)
+            {
+                db.ChangeTracker.DetectChanges();
+                db.SaveChanges();
+
+                return message;
+            }
+
+            return errors;
         }
 
         public string CreateRange(List<Theme> themes)
@@ -131,15 +147,15 @@ namespace Pages.Data.Repositories.Membership
         {
             string message = "";
             string errors = "";
+            
+            db.ChangeTracker.AutoDetectChangesEnabled = false;
             foreach(Theme theme in themes)
             {
                 string name = theme.Name;
 
                 try
                 {
-                    db.Themes.Remove(theme);
-
-                    db.SaveChanges();
+                    db.Themes.Remove(theme);                    
                     message += "<p class='success'>Successfully deleted theme '" + name + "'.</p>";
                 }
                 catch(Exception e)
@@ -153,10 +169,24 @@ namespace Pages.Data.Repositories.Membership
                         errors += "<p class='error'>Could not delete theme '" + name + "': " + e.Message + "</p>" + (e.InnerException != null ? "<p class='error inner_exception'><b><i>Inner exception:</i></b><br /><p class='error inner_exception_message'>" + e.InnerException + "</p></p>" : "");
                     }
                 }
+
+                if(themes.IndexOf(theme) < themes.Count && themes.IndexOf(theme) % 15000 == 0)
+                {
+                    db.ChangeTracker.DetectChanges();
+                    db.SaveChanges();
+                    db.ChangeTracker.AutoDetectChangesEnabled = false;
+                }
             }
 
-            message += errors;
-            return message;
+            if(errors == string.Empty)
+            {
+                db.ChangeTracker.DetectChanges();
+                db.SaveChanges();
+
+                return message;
+            }
+
+            return errors;
         }
 
         public string DeleteRange(List<Theme> themes)

@@ -90,6 +90,7 @@ namespace Pages.Web.Pages.Admin.Membership
                     SystemMessage = userRepository.Update(User);
                 }
 
+
                 TempData["SystemMessage"] = SystemMessage;
                 return Redirect("/Admin/Membership/Users");
             }
@@ -113,6 +114,7 @@ namespace Pages.Web.Pages.Admin.Membership
                 {
                     if(themeName == null || themeName == "")
                     {
+                        Theme.Color = Theme.Color.ToUpper();
                         SystemMessage = themeRepository.Create(Theme);
                     }
                     else
@@ -121,11 +123,16 @@ namespace Pages.Web.Pages.Admin.Membership
                         if(UpdateTheme != null)
                         {
                             Theme.Id = UpdateTheme.Id;
+                            Theme.Color = Theme.Color.ToUpper();
                             SystemMessage = themeRepository.Update(Theme);
                         }
                     }
                 }
-
+                if(SystemMessage.ToLower().Contains("error"))
+                {
+                    Users = userRepository.GetUsers();
+                    return Page();
+                }
                 TempData["SystemMessage"] = SystemMessage;
                 return Redirect("/Admin/Membership/Users/Edit/" + User.Id);
             }
