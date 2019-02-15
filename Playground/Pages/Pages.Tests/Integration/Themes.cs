@@ -73,7 +73,7 @@ namespace Pages.Tests.Integration
                 Email = "Test@Email.dk",
                 Password = "test123"
             };
-
+    
             UserRepository.Create(user).FormatHtml().Output(TestContext);
             user = UserRepository.GetUser(user.Id);
 
